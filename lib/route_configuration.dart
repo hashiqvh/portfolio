@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:go_router/go_router.dart';
 import 'package:my_portfolio/admin/UI/about/about_screen.dart';
 import 'package:my_portfolio/admin/UI/admin_layout.dart';
@@ -44,18 +46,31 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
 
         // ],
       ),
+      // GoRoute(
+      //   path: '/admin/:fid',
+      //   builder: (context, state) {
+      //     String fid = state.pathParameters['fid']!;
+      //     if (fid.isEmpty) {
+      //       fid = "intro";
+      //     }
+      //     return AdminLayout(
+      //       route: fid,
+      //       key: state.pageKey,
+      //     );
+      //   },
+      // ),
       GoRoute(
           path: RouteUri.admin,
           pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const AdminLayout(),
+                child: const AdminIntroScreen(),
               ),
           routes: [
             GoRoute(
               path: RouteUri.adminIntro,
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const AdminIntroScreen(),
+                child: AdminLayout(),
               ),
             ),
             GoRoute(
@@ -80,6 +95,7 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
               ),
             ),
           ]),
+
       GoRoute(
         path: RouteUri.login,
         pageBuilder: (context, state) => NoTransitionPage<void>(
@@ -94,12 +110,11 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
       } else if (restrictedRoutes.contains(state.matchedLocation)) {
         // Is public route.
         if (userDataProvider.isUserLoggedIn()) {
+          log("logged in");
           // User is logged in, redirect to home page.
           return RouteUri.admin;
-        }
-      } else {
-        // Not public route.
-        if (!userDataProvider.isUserLoggedIn()) {
+        } else {
+          log("logged put");
           // User is not logged in, redirect to login page.
           return RouteUri.login;
         }

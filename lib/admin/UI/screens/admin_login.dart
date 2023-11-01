@@ -105,12 +105,13 @@ class AdminLogin extends StatelessWidget {
                             } else {
                               if (userNameController.text == "admin" &&
                                   passwordController.text == "password") {
-                                GoRouter.of(context).go(RouteUri.admin);
-                                await context
+                                Future(() => context
                                     .read<UserDataProvider>()
                                     .setUserDataAsync(
                                       username: userNameController.text,
-                                    );
+                                    ));
+
+                                GoRouter.of(context).go(RouteUri.admin);
                               }
                             }
                           },

@@ -16,7 +16,9 @@ class DrawerMenuItem extends StatelessWidget {
       title: Text(menuItem.title),
       selected: isSelected,
       onTap: () {
-        GoRouter.of(context).go(menuItem.route);
+        GoRouter.of(context).go(
+          "/admin/${menuItem.route}",
+        );
       },
     );
   }
@@ -30,7 +32,16 @@ class MenuItem {
   MenuItem(this.title, this.route, this.icon);
 }
 
-class SideBar extends StatelessWidget {
+class SideBar extends StatefulWidget {
+  final String route;
+
+  const SideBar({super.key, this.route = RouteUri.adminIntro});
+
+  @override
+  State<SideBar> createState() => _SideBarState();
+}
+
+class _SideBarState extends State<SideBar> {
   final List<MenuItem> menuItems = [
     MenuItem('Introduction', RouteUri.adminIntro, Icons.info),
     MenuItem('About', RouteUri.adminAbout, Icons.account_circle),
@@ -39,16 +50,15 @@ class SideBar extends StatelessWidget {
     // Add more menu items as needed
   ];
 
-  SideBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     final location = GoRouter.of(context).location;
+    bool isSelected = location == widget.route;
     return Drawer(
       child: ListView(
         clipBehavior: Clip.none, // Set clipBehavior to none
         children: menuItems.map((item) {
-          final isSelected = location == item.route;
+          isSelected = location == item.route;
           return DrawerMenuItem(
             menuItem: item,
             isSelected: isSelected,
