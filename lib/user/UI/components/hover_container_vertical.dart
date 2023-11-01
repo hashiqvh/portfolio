@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HoverContainerVertical extends StatefulWidget {
   final String ttile;
@@ -33,19 +32,19 @@ class _HoverContainerState extends State<HoverContainerVertical> {
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: isHovered ? 60.w : 40.w, // Adjust width based on hover state
-            height: 3.h,
+            width: isHovered ? 60 : 40, // Adjust width based on hover state
+            height: 3,
             color: isHovered
                 ? Colors.white
                 : const Color(0xFF94A3B8), // Change this to your secondaryColor
           ),
-          SizedBox(
-            width: 10.w,
+          const SizedBox(
+            width: 10,
           ),
           Text(
             widget.ttile,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 12,
               color: isHovered ? Colors.white : const Color(0xFF94A3B8),
             ),
           )

@@ -1,4 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+
+double calculatePaddingHeight(Screens currentScreen) {
+  if (currentScreen == Screens.laptop) {
+    return 174;
+  } else if (currentScreen == Screens.tablet) {
+    return 50;
+  } else {
+    return 25;
+  }
+}
+
+double calculatePaddingWidth(Screens currentScreen) {
+  if (currentScreen == Screens.laptop) {
+    return 150;
+  } else if (currentScreen == Screens.tablet) {
+    return 100;
+  } else {
+    return 25;
+  }
+}
 
 EdgeInsets getCustomPadding({
   bool isSmallScreen = false,
@@ -16,6 +38,20 @@ EdgeInsets getCustomPadding({
   }
 }
 
+// A function to determine the screen size based on width
+Screens getScreenSize(double screenWidth) {
+  if (screenWidth >= 1200) {
+    log("Current Screen laptop");
+    return Screens.laptop;
+  } else if (screenWidth >= 600) {
+    log("Current Screen tablet");
+    return Screens.tablet;
+  } else {
+    log("Current Screen mobile");
+    return Screens.phone;
+  }
+}
+
 String truncateTextAfterWords(String text, int maxWords) {
   // Split the text into words
   List<String> words = text.split(' ');
@@ -28,4 +64,10 @@ String truncateTextAfterWords(String text, int maxWords) {
     // Return the original text if it has fewer words
     return text;
   }
+}
+
+enum Screens {
+  laptop,
+  tablet,
+  phone,
 }

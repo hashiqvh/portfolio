@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/core/provider/data_provider.dart';
@@ -10,6 +9,8 @@ import 'package:my_portfolio/user/UI/components/hover_container_vertical.dart';
 import 'package:my_portfolio/user/UI/components/hover_icon.dart';
 import 'package:my_portfolio/user/UI/experience/user_experience.dart';
 import 'package:my_portfolio/user/UI/proejcts/projects.dart';
+import 'package:my_portfolio/user/layout.dart';
+import 'package:my_portfolio/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -24,159 +25,39 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   double y = 0.0;
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(1519, 739),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (_, child) {
-          return Scaffold(
-            body: Listener(
-              onPointerHover: (event) {
-                log("on pointer hover");
-                setState(() {
-                  x = event.position.dx;
-                  y = event.position.dy;
-                });
-              },
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 150.w,
-                    ),
-                    child: Consumer<DataProvider>(
-                      builder: (context, value, child) {
-                        if (value.isLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 173.h, bottom: 173.h),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Brittany Chiang',
-                                        style: TextStyle(
-                                          color: const Color(0xFFE2E8F0),
-                                          fontSize: 48.sp,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w700,
-                                          // height: 0.02,
-                                          letterSpacing: -1.20,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 12.h,
-                                      ),
-                                      Text(
-                                        'Lead Engineer at Upstatement',
-                                        style: TextStyle(
-                                          color: const Color(0xFFE2E8F0),
-                                          fontSize: 20.sp,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w500,
-                                          // height: 0.07,
-                                          letterSpacing: -0.50,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 15.h,
-                                      ),
-                                      Text(
-                                        'I build accessible, inclusive products and\ndigital experiences for the web.',
-                                        style: TextStyle(
-                                          color: const Color(0xFF94A3B8),
-                                          fontSize: 16.sp,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 66.h,
-                                      ),
-                                      const HoverContainerVertical(
-                                        ttile: "About",
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      const HoverContainerVertical(
-                                        ttile: "Experience",
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      const HoverContainerVertical(
-                                        ttile: "Projects",
-                                      ),
-                                      SizedBox(
-                                        height: 44.h,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const HoverIcon(
-                                              iconData:
-                                                  FontAwesomeIcons.github),
-                                          SizedBox(
-                                            width: 20.w,
-                                          ),
-                                          const HoverIcon(
-                                              iconData:
-                                                  FontAwesomeIcons.linkedin),
-                                          SizedBox(
-                                            width: 20.w,
-                                          ),
-                                          const HoverIcon(
-                                              iconData:
-                                                  FontAwesomeIcons.twitter),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      right: 150.w,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        UserAboutScreen(
-                                            about: value.dataResponse
-                                                .aboutUsData['content']),
-                                        const Experience(),
-                                        SizedBox(
-                                          height: 142.h,
-                                        ),
-                                        const Projects(),
-                                        SizedBox(
-                                          height: 142.h,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]);
-                      },
-                    ),
-                  ),
-                  Positioned(
+    Screens currentScreen = getScreenSize(MediaQuery.of(context).size.width);
+
+    double screenHeight = currentScreen == Screens.laptop
+        ? 1519
+        : currentScreen == Screens.tablet
+            ? 1000
+            : 720;
+    double screenWidth = currentScreen == Screens.laptop
+        ? 739
+        : currentScreen == Screens.tablet
+            ? 800
+            : 320;
+    double heightBtwnContent = currentScreen == Screens.laptop
+        ? 142
+        : currentScreen == Screens.tablet
+            ? 50
+            : 15;
+    return Scaffold(
+      body: Listener(
+        onPointerHover: (event) {
+          // if (currentScreen != Screens.phone) {
+          log("on pointer hover");
+          setState(() {
+            x = event.position.dx;
+            y = event.position.dy;
+          });
+          //  }
+        },
+        child: Stack(
+          children: [
+            currentScreen == Screens.phone
+                ? const SizedBox()
+                : Positioned(
                     top:
                         y - 40.0, // Adjust the circle's position for its center
                     left:
@@ -184,23 +65,201 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     child: Container(
                       width: 200.0,
                       height: 200.0,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: primaryColor,
-                            offset: Offset(0, 0),
+                            color: primaryColor.withOpacity(0.3),
+                            offset: const Offset(0, 0),
                             blurRadius: 200.0,
                           ),
                         ],
                       ),
                     ),
                   ),
-                ],
+            Padding(
+              padding: EdgeInsets.only(
+                left: calculatePaddingWidth(currentScreen),
+              ),
+              child: Consumer<DataProvider>(
+                builder: (context, value, child) {
+                  if (value.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return LayoutScreen(currentScreen: currentScreen, children: [
+                    LayoutHomeWidget(
+                      currentScreen: currentScreen,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: currentScreen == Screens.phone
+                              ? 10
+                              : currentScreen == Screens.tablet
+                                  ? 70
+                                  : calculatePaddingHeight(currentScreen),
+                          bottom: currentScreen == Screens.phone
+                              ? 10
+                              : currentScreen == Screens.tablet
+                                  ? 70
+                                  : calculatePaddingHeight(currentScreen),
+                          right: currentScreen == Screens.phone ||
+                                  currentScreen == Screens.tablet
+                              ? calculatePaddingWidth(currentScreen)
+                              : 0,
+                        ),
+                        child: SizedBox(
+                          //width: 528.w,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (currentScreen == Screens.phone)
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                              Text(
+                                value.dataResponse
+                                    .introductoryContent['title_one'],
+                                style: TextStyle(
+                                  color: const Color(0xFFE2E8F0),
+                                  fontSize: currentScreen == Screens.phone ||
+                                          currentScreen == Screens.tablet
+                                      ? 80
+                                      : 48,
+
+                                  fontWeight: FontWeight.w700,
+                                  // height: 0.02,
+                                  letterSpacing: -1.20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: currentScreen == Screens.phone
+                                    ? 3
+                                    : currentScreen == Screens.tablet
+                                        ? 20
+                                        : 12,
+                              ),
+                              Text(
+                                value.dataResponse
+                                    .introductoryContent['title_two'],
+                                style: TextStyle(
+                                  color: const Color(0xFFE2E8F0),
+                                  fontSize: currentScreen == Screens.phone ||
+                                          currentScreen == Screens.tablet
+                                      ? 30
+                                      : 20,
+
+                                  fontWeight: FontWeight.w500,
+                                  // height: 0.07,
+                                  letterSpacing: -0.50,
+                                ),
+                              ),
+                              SizedBox(
+                                height: currentScreen == Screens.phone ||
+                                        currentScreen == Screens.tablet
+                                    ? 3
+                                    : 15,
+                              ),
+                              Text(
+                                value.dataResponse
+                                    .introductoryContent['title_three'],
+                                style: TextStyle(
+                                  color: const Color(0xFF94A3B8),
+                                  fontSize: currentScreen == Screens.phone ||
+                                          currentScreen == Screens.tablet
+                                      ? 28
+                                      : 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              if (currentScreen == Screens.laptop) ...[
+                                const SizedBox(
+                                  height: 66,
+                                ),
+                                const HoverContainerVertical(
+                                  ttile: "About",
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const HoverContainerVertical(
+                                  ttile: "Experience",
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const HoverContainerVertical(
+                                  ttile: "Projects",
+                                ),
+                              ],
+                              SizedBox(
+                                height: currentScreen == Screens.phone
+                                    ? 10
+                                    : currentScreen == Screens.tablet
+                                        ? 25
+                                        : 44,
+                              ),
+                              Row(
+                                children: [
+                                  HoverIcon(
+                                      screens: currentScreen,
+                                      iconData: FontAwesomeIcons.github),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  HoverIcon(
+                                      screens: currentScreen,
+                                      iconData: FontAwesomeIcons.linkedin),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  HoverIcon(
+                                      screens: currentScreen,
+                                      iconData: FontAwesomeIcons.twitter),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    LayoutHomeWidget(
+                      currentScreen: currentScreen,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            right: calculatePaddingWidth(currentScreen),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              UserAboutScreen(
+                                  currentScreen: currentScreen,
+                                  about: value
+                                      .dataResponse.aboutUsData['content']),
+                              Experience(currentScreen: currentScreen),
+                              SizedBox(
+                                height: heightBtwnContent,
+                              ),
+                              Projects(
+                                currentScreen: currentScreen,
+                              ),
+                              SizedBox(
+                                height: heightBtwnContent,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]);
+                },
               ),
             ),
-          );
-        });
+          ],
+        ),
+      ),
+    );
   }
 
   @override
