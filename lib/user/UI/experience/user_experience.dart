@@ -24,6 +24,11 @@ class Experience extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
+        currentScreen == Screens.phone || currentScreen == Screens.tablet
+            ? const SizedBox(
+                height: 20,
+              )
+            : const SizedBox(),
         ListView.builder(
             primary: false,
             itemCount: 3,

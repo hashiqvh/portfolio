@@ -48,10 +48,10 @@ class ExperienceModel {
 }
 
 class Project {
-  final String projectName;
-  final String projectUrl;
-  final String projectUrlAndroid;
-  final String projectUrlIos;
+  String projectName;
+  String projectUrl;
+  String projectUrlAndroid;
+  String projectUrlIos;
 
   Project({
     required this.projectName,

@@ -112,7 +112,7 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
         if (userDataProvider.isUserLoggedIn()) {
           log("logged in");
           // User is logged in, redirect to home page.
-          return RouteUri.admin;
+          return state.matchedLocation;
         } else {
           log("logged put");
           // User is not logged in, redirect to login page.

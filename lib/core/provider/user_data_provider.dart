@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_portfolio/route_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataProvider extends ChangeNotifier {
@@ -29,6 +33,7 @@ class UserDataProvider extends ChangeNotifier {
   }
 
   Future<void> setUserDataAsync({
+    required BuildContext context,
     String? username,
   }) async {
     final sharedPref = await SharedPreferences.getInstance();
@@ -43,6 +48,7 @@ class UserDataProvider extends ChangeNotifier {
     }
 
     if (shouldNotify) {
+      GoRouter.of(context).go(RouteUri.admin);
       notifyListeners();
     }
   }

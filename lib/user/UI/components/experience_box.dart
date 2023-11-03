@@ -32,9 +32,9 @@ class _ExperienceBoxState extends State<ExperienceBox> {
           width: 528,
           margin: EdgeInsets.only(
               bottom: widget.currentScreen == Screens.phone
-                  ? 10
+                  ? 30
                   : widget.currentScreen == Screens.tablet
-                      ? 20
+                      ? 30
                       : 48),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
@@ -53,7 +53,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
           ),
           child: Padding(
             padding: EdgeInsets.all(
-                widget.currentScreen == Screens.phone ? 8 : 24.80),
+                widget.currentScreen == Screens.phone ? 10 : 24.80),
             child: LayoutScreenExperience(
               currentScreen: widget.currentScreen,
               children: [
@@ -70,9 +70,9 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                     style: TextStyle(
                       color: const Color(0xFF64748B),
                       fontSize: widget.currentScreen == Screens.phone
-                          ? 24
+                          ? 22
                           : widget.currentScreen == Screens.tablet
-                              ? 25
+                              ? 22
                               : 12,
 
                       fontWeight: FontWeight.w600,
@@ -93,7 +93,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                             color: const Color(0xFFE2E8F0),
                             fontSize: widget.currentScreen == Screens.phone ||
                                     widget.currentScreen == Screens.tablet
-                                ? 28
+                                ? 23
                                 : 16,
 
                             fontWeight: widget.currentScreen == Screens.phone ||
@@ -105,7 +105,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                         ),
                         SizedBox(
                             height: widget.currentScreen == Screens.phone
-                                ? 1.5
+                                ? 10
                                 : 6.30),
                         Text(
                           'Deliver high-quality, robust production code for a diverse array of projects for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, Koala Health, Vanderbilt University, The 19th News, and more.Provide leadership within engineering department through close collaboration, knowledge shares, and mentorship.',
@@ -113,7 +113,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                             color: const Color(0xFF94A3B8),
                             fontSize: widget.currentScreen == Screens.phone ||
                                     widget.currentScreen == Screens.tablet
-                                ? 26
+                                ? 20
                                 : 14,
 
                             fontWeight: FontWeight.w400,
@@ -152,7 +152,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                                   Screens.phone ||
                                               widget.currentScreen ==
                                                   Screens.tablet
-                                          ? 24
+                                          ? 22
                                           : 14,
                                       fontWeight: FontWeight.w500,
                                     ),

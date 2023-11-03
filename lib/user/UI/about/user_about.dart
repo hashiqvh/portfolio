@@ -20,12 +20,12 @@ class UserAboutScreen extends StatelessWidget {
               ? calculatePaddingHeight(currentScreen)
               : currentScreen == Screens.tablet
                   ? 15
-                  : 10,
+                  : 30,
           bottom: currentScreen == Screens.laptop
               ? 142
               : currentScreen == Screens.tablet
                   ? 50
-                  : 10,
+                  : 30,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class UserAboutScreen extends StatelessWidget {
                     'ABOUT',
                     style: TextStyle(
                       color: Color(0xFFE2E8F0),
-                      fontSize: 29,
+                      fontSize: 25,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                       //   height: 0.10,
@@ -45,7 +45,7 @@ class UserAboutScreen extends StatelessWidget {
                 : const SizedBox(),
             currentScreen == Screens.phone || currentScreen == Screens.tablet
                 ? const SizedBox(
-                    height: 8,
+                    height: 20,
                   )
                 : const SizedBox(),
             Text(
@@ -53,7 +53,7 @@ class UserAboutScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: currentScreen == Screens.phone ||
                         currentScreen == Screens.tablet
-                    ? 30
+                    ? 20
                     : 16,
               ),
             ),

@@ -34,7 +34,7 @@ class HoverIconState extends State<HoverIcon> {
       child: Icon(
         widget.iconData,
         size: widget.screens == Screens.phone
-            ? 10
+            ? 25
             : widget.screens == Screens.tablet
                 ? 30
                 : 25,

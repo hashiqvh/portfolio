@@ -27,16 +27,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     Screens currentScreen = getScreenSize(MediaQuery.of(context).size.width);
 
-    double screenHeight = currentScreen == Screens.laptop
-        ? 1519
-        : currentScreen == Screens.tablet
-            ? 1000
-            : 720;
-    double screenWidth = currentScreen == Screens.laptop
-        ? 739
-        : currentScreen == Screens.tablet
-            ? 800
-            : 320;
     double heightBtwnContent = currentScreen == Screens.laptop
         ? 142
         : currentScreen == Screens.tablet
@@ -92,7 +82,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(
                           top: currentScreen == Screens.phone
-                              ? 10
+                              ? 15
                               : currentScreen == Screens.tablet
                                   ? 70
                                   : calculatePaddingHeight(currentScreen),
@@ -119,12 +109,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               Text(
                                 value.dataResponse
                                     .introductoryContent['title_one'],
-                                style: TextStyle(
-                                  color: const Color(0xFFE2E8F0),
-                                  fontSize: currentScreen == Screens.phone ||
-                                          currentScreen == Screens.tablet
-                                      ? 80
-                                      : 48,
+                                style: const TextStyle(
+                                  color: Color(0xFFE2E8F0),
+                                  fontSize: 48,
 
                                   fontWeight: FontWeight.w700,
                                   // height: 0.02,
@@ -135,7 +122,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                 height: currentScreen == Screens.phone
                                     ? 3
                                     : currentScreen == Screens.tablet
-                                        ? 20
+                                        ? 10
                                         : 12,
                               ),
                               Text(
@@ -156,19 +143,27 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               SizedBox(
                                 height: currentScreen == Screens.phone ||
                                         currentScreen == Screens.tablet
-                                    ? 3
+                                    ? 10
                                     : 15,
                               ),
-                              Text(
-                                value.dataResponse
-                                    .introductoryContent['title_three'],
-                                style: TextStyle(
-                                  color: const Color(0xFF94A3B8),
-                                  fontSize: currentScreen == Screens.phone ||
-                                          currentScreen == Screens.tablet
-                                      ? 28
-                                      : 16,
-                                  fontWeight: FontWeight.w400,
+                              SizedBox(
+                                width: currentScreen == Screens.tablet
+                                    ? MediaQuery.of(context).size.width - 250
+                                    : null,
+                                child: Expanded(
+                                  child: Text(
+                                    value.dataResponse
+                                        .introductoryContent['title_three'],
+                                    style: TextStyle(
+                                      color: const Color(0xFF94A3B8),
+                                      fontSize: currentScreen ==
+                                                  Screens.phone ||
+                                              currentScreen == Screens.tablet
+                                          ? 20
+                                          : 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
                               ),
                               if (currentScreen == Screens.laptop) ...[
@@ -193,7 +188,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               ],
                               SizedBox(
                                 height: currentScreen == Screens.phone
-                                    ? 10
+                                    ? 20
                                     : currentScreen == Screens.tablet
                                         ? 25
                                         : 44,

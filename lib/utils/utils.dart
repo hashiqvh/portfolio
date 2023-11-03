@@ -8,7 +8,7 @@ double calculatePaddingHeight(Screens currentScreen) {
   } else if (currentScreen == Screens.tablet) {
     return 50;
   } else {
-    return 25;
+    return 30;
   }
 }
 
@@ -18,7 +18,7 @@ double calculatePaddingWidth(Screens currentScreen) {
   } else if (currentScreen == Screens.tablet) {
     return 100;
   } else {
-    return 25;
+    return 30;
   }
 }
 

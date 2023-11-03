@@ -24,10 +24,6 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
   TextEditingController roleController = TextEditingController();
   TextEditingController imageController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController projectNameController = TextEditingController();
-  TextEditingController androidUrlController = TextEditingController();
-  TextEditingController iosUrlController = TextEditingController();
-  TextEditingController urlController = TextEditingController();
 
   List<Project> projectFields = [];
 
@@ -84,44 +80,117 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
             ),
             // Display the project fields
             if (projectFields.isNotEmpty)
-              ...projectFields.map((e) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Project Name: ${e.projectName}"),
-                    Text("Project URL: ${e.projectUrl}"),
-                    Text("Project IOS: ${e.projectUrlIos}"),
-                    Text("Project Android: ${e.projectUrlAndroid}"),
-                  ],
-                );
-              }),
-            TextFormField(
-              controller: projectNameController,
-              decoration: const InputDecoration(labelText: 'Project Name'),
-            ),
-            TextFormField(
-              controller: urlController,
-              decoration: const InputDecoration(labelText: 'Project URL'),
-            ),
-            TextFormField(
-              controller: androidUrlController,
-              decoration: const InputDecoration(labelText: 'Android URL'),
-            ),
-            TextFormField(
-              controller: iosUrlController,
-              decoration: const InputDecoration(labelText: 'IOS URL'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+              DataTable(
+                columns: const <DataColumn>[
+                  DataColumn(label: Text('Project Name')),
+                  DataColumn(label: Text('Project URL')),
+                  DataColumn(label: Text('Project iOS')),
+                  DataColumn(label: Text('Project Android')),
+                ],
+                rows: projectFields.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final project = entry.value;
+                  TextEditingController projectNameController =
+                      TextEditingController(text: project.projectName);
+                  TextEditingController androidUrlController =
+                      TextEditingController(text: project.projectUrlAndroid);
+                  TextEditingController iosUrlController =
+                      TextEditingController(text: project.projectUrlIos);
+                  TextEditingController urlController =
+                      TextEditingController(text: project.projectUrl);
+                  return DataRow(
+                    cells: <DataCell>[
+                      DataCell(
+                        TextField(
+                          controller: projectNameController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (value) {},
+
+                          onEditingComplete: () {
+                            // Update the project's name when the value changes
+                            projectFields[index].projectName =
+                                projectNameController.text;
+                            updateProjectInList(index, projectFields[index]);
+                          },
+                          textDirection: TextDirection
+                              .ltr, // Set the text direction to left-to-right
+                          textAlign: TextAlign
+                              .start, // Set the text alignment to start (left)
+                        ),
+                      ),
+                      DataCell(
+                        TextField(
+                          controller: urlController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          onEditingComplete: () {
+                            // Update the project's URL when the value changes
+                            projectFields[index].projectUrl =
+                                urlController.text;
+                            updateProjectInList(index, projectFields[index]);
+                          },
+                          textDirection: TextDirection
+                              .ltr, // Set the text direction to left-to-right
+                          textAlign: TextAlign
+                              .start, // Set the text alignment to start (left)
+                        ),
+                      ),
+                      DataCell(
+                        TextField(
+                          controller: iosUrlController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          onEditingComplete: () {
+                            // Update the project's iOS URL when the value changes
+                            projectFields[index].projectUrlIos =
+                                iosUrlController.text;
+                            updateProjectInList(index, projectFields[index]);
+                          },
+                          textDirection: TextDirection
+                              .ltr, // Set the text direction to left-to-right
+                          textAlign: TextAlign
+                              .start, // Set the text alignment to start (left)
+                        ),
+                      ),
+                      DataCell(
+                        TextField(
+                          controller: androidUrlController,
+                          decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          onEditingComplete: () {
+                            // Update the project's Android URL when the value changes
+                            projectFields[index].projectUrlAndroid =
+                                androidUrlController.text;
+                            updateProjectInList(index, projectFields[index]);
+                          },
+                          textDirection: TextDirection
+                              .ltr, // Set the text direction to left-to-right
+                          textAlign: TextAlign
+                              .start, // Set the text alignment to start (left)
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   projectFields.add(Project(
-                    projectName: projectNameController.text,
-                    projectUrl: urlController.text,
-                    projectUrlAndroid: androidUrlController.text,
-                    projectUrlIos: iosUrlController.text,
+                    projectName: "",
+                    projectUrl: "",
+                    projectUrlAndroid: "",
+                    projectUrlIos: "",
                   ));
                 });
               },
@@ -186,5 +255,12 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
 
       projectFields.addAll(widget.experienceToEdit!.projects);
     }
+  }
+
+  ///  function to update the project in the list
+  void updateProjectInList(int index, Project updatedProject) {
+    setState(() {
+      projectFields[index] = updatedProject;
+    });
   }
 }
