@@ -14,7 +14,7 @@ double calculatePaddingHeight(Screens currentScreen) {
 
 double calculatePaddingWidth(Screens currentScreen) {
   if (currentScreen == Screens.laptop) {
-    return 150;
+    return 120;
   } else if (currentScreen == Screens.tablet) {
     return 100;
   } else {
