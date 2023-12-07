@@ -79,7 +79,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       currentScreen: currentScreen,
                       child: Padding(
                         padding: EdgeInsets.only(
-                          left: calculatePaddingHeight(currentScreen),
+                          left: calculatePaddingWidth(currentScreen),
                           top: currentScreen == Screens.phone
                               ? 15
                               : currentScreen == Screens.tablet
@@ -90,116 +90,113 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               : currentScreen == Screens.tablet
                                   ? 70
                                   : calculatePaddingHeight(currentScreen),
-                          right: currentScreen == Screens.phone ||
-                                  currentScreen == Screens.tablet
-                              ? calculatePaddingWidth(currentScreen)
-                              : 0,
+                          right: calculatePaddingWidth(currentScreen),
                         ),
-                        child: SizedBox(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (currentScreen == Screens.phone)
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                              Text(
-                                value.dataResponse
-                                    .introductoryContent['title_one'],
-                                style: const TextStyle(
-                                  color: Color(0xFFE2E8F0),
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -1.20,
-                                ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (currentScreen == Screens.phone)
+                              const SizedBox(
+                                height: 15,
                               ),
-                              SizedBox(
-                                height: currentScreen == Screens.phone
-                                    ? 3
-                                    : currentScreen == Screens.tablet
-                                        ? 10
-                                        : 12,
+                            Text(
+                              value.dataResponse
+                                  .introductoryContent['title_one'],
+                              style: const TextStyle(
+                                color: Color(0xFFE2E8F0),
+                                fontSize: 48,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -1.20,
                               ),
-                              Text(
+                            ),
+                            SizedBox(
+                              height: currentScreen == Screens.phone
+                                  ? 3
+                                  : currentScreen == Screens.tablet
+                                      ? 10
+                                      : 12,
+                            ),
+                            Text(
+                              value.dataResponse
+                                  .introductoryContent['title_two'],
+                              style: TextStyle(
+                                color: const Color(0xFFE2E8F0),
+                                fontSize: currentScreen == Screens.phone ||
+                                        currentScreen == Screens.tablet
+                                    ? 30
+                                    : 20,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: -0.50,
+                              ),
+                            ),
+                            SizedBox(
+                              height: currentScreen == Screens.phone ||
+                                      currentScreen == Screens.tablet
+                                  ? 10
+                                  : 15,
+                            ),
+                            SizedBox(
+                              width: currentScreen == Screens.tablet
+                                  ? MediaQuery.of(context).size.width - 250
+                                  : null,
+                              child: Text(
                                 value.dataResponse
-                                    .introductoryContent['title_two'],
+                                    .introductoryContent['title_three'],
                                 style: TextStyle(
-                                  color: const Color(0xFFE2E8F0),
+                                  color: const Color(0xFF94A3B8),
                                   fontSize: currentScreen == Screens.phone ||
                                           currentScreen == Screens.tablet
-                                      ? 30
-                                      : 20,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: -0.50,
+                                      ? 20
+                                      : 16,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(
-                                height: currentScreen == Screens.phone ||
-                                        currentScreen == Screens.tablet
-                                    ? 10
-                                    : 15,
-                              ),
-                              SizedBox(
-                                width: currentScreen == Screens.tablet
-                                    ? MediaQuery.of(context).size.width - 250
-                                    : null,
-                                child: Text(
-                                  value.dataResponse
-                                      .introductoryContent['title_three'],
-                                  style: TextStyle(
-                                    color: const Color(0xFF94A3B8),
-                                    fontSize: currentScreen == Screens.phone ||
-                                            currentScreen == Screens.tablet
-                                        ? 20
-                                        : 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              if (currentScreen == Screens.laptop) ...[
-                                const SizedBox(height: 66),
-                                buildHoverContainer(0, "About"),
-                                const SizedBox(height: 10),
-                                buildHoverContainer(1, "Experience"),
-                                const SizedBox(height: 10),
-                                buildHoverContainer(2, "Projects"),
-                              ],
-                              SizedBox(
-                                height: currentScreen == Screens.phone
-                                    ? 20
-                                    : currentScreen == Screens.tablet
-                                        ? 25
-                                        : 44,
-                              ),
-                              Row(
-                                children: [
-                                  HoverIcon(
-                                      screens: currentScreen,
-                                      iconData: FontAwesomeIcons.github),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  HoverIcon(
-                                      screens: currentScreen,
-                                      iconData: FontAwesomeIcons.linkedin),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  HoverIcon(
-                                      screens: currentScreen,
-                                      iconData: FontAwesomeIcons.twitter),
-                                ],
-                              ),
+                            ),
+                            if (currentScreen == Screens.laptop) ...[
+                              const SizedBox(height: 66),
+                              buildHoverContainer(0, "About"),
+                              const SizedBox(height: 10),
+                              buildHoverContainer(1, "Experience"),
+                              const SizedBox(height: 10),
+                              buildHoverContainer(2, "Projects"),
                             ],
-                          ),
+                            SizedBox(
+                              height: currentScreen == Screens.phone
+                                  ? 20
+                                  : currentScreen == Screens.tablet
+                                      ? 25
+                                      : 44,
+                            ),
+                            Row(
+                              children: [
+                                HoverIcon(
+                                    screens: currentScreen,
+                                    iconData: FontAwesomeIcons.github),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                HoverIcon(
+                                    screens: currentScreen,
+                                    iconData: FontAwesomeIcons.linkedin),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                HoverIcon(
+                                    screens: currentScreen,
+                                    iconData: FontAwesomeIcons.twitter),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     LayoutHomeWidget(
                       currentScreen: currentScreen,
                       child: ListView.builder(
+                        shrinkWrap: true,
                         padding: EdgeInsets.only(
+                          left: calculatePaddingWidth(currentScreen),
                           right: calculatePaddingWidth(currentScreen),
                         ),
                         controller: _scrollController,
