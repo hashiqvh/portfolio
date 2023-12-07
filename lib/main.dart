@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
           routeInformationProvider: _appRouter!.routeInformationProvider,
           routeInformationParser: _appRouter!.routeInformationParser,
           routerDelegate: _appRouter!.routerDelegate,
-          title: 'Flutter Demo',
+          title: 'Hashiq V H',
           theme: ThemeData.dark().copyWith(
             scaffoldBackgroundColor: bgColor,
             textTheme:
