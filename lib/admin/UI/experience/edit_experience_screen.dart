@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/admin/UI/experience/widget/project_form_tile.dart';
 import 'package:my_portfolio/const/diments.dart';
 import 'package:my_portfolio/core/models/experience_model.dart';
 import 'package:my_portfolio/core/provider/work_experience_provider.dart';
@@ -35,205 +36,116 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
             ? 'Edit Work Experience'
             : 'Add Work Experience'),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding * 5),
-        child: ListView(
-          children: <Widget>[
-            TextFormField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-            TextFormField(
-              controller: locationController,
-              decoration: const InputDecoration(labelText: 'Location'),
-            ),
-            TextFormField(
-              controller: startDateController,
-              decoration: const InputDecoration(labelText: 'Start Date'),
-            ),
-            TextFormField(
-              controller: endDateController,
-              decoration: const InputDecoration(labelText: 'End Date'),
-            ),
-            TextFormField(
-              controller: roleController,
-              decoration: const InputDecoration(labelText: 'Role'),
-            ),
-            TextFormField(
-              controller: imageController,
-              decoration: const InputDecoration(labelText: 'Image URL'),
-            ),
-            TextFormField(
-              controller: companyUrlController,
-              decoration: const InputDecoration(labelText: 'Company URL'),
-            ),
-            TextFormField(
-              controller: descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text("Projects"),
-            const SizedBox(
-              height: 10,
-            ),
-            // Display the project fields
-            if (projectFields.isNotEmpty)
-              DataTable(
-                columns: const <DataColumn>[
-                  DataColumn(label: Text('Project Name')),
-                  DataColumn(label: Text('Project URL')),
-                  DataColumn(label: Text('Project iOS')),
-                  DataColumn(label: Text('Project Android')),
-                ],
-                rows: projectFields.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final project = entry.value;
-                  TextEditingController projectNameController =
-                      TextEditingController(text: project.projectName);
-                  TextEditingController androidUrlController =
-                      TextEditingController(text: project.projectUrlAndroid);
-                  TextEditingController iosUrlController =
-                      TextEditingController(text: project.projectUrlIos);
-                  TextEditingController urlController =
-                      TextEditingController(text: project.projectUrl);
-                  return DataRow(
-                    cells: <DataCell>[
-                      DataCell(
-                        TextField(
-                          controller: projectNameController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) {},
+        children: <Widget>[
+          TextFormField(
+            controller: nameController,
+            decoration: const InputDecoration(labelText: 'Name'),
+          ),
+          TextFormField(
+            controller: locationController,
+            decoration: const InputDecoration(labelText: 'Location'),
+          ),
+          TextFormField(
+            controller: startDateController,
+            decoration: const InputDecoration(labelText: 'Start Date'),
+          ),
+          TextFormField(
+            controller: endDateController,
+            decoration: const InputDecoration(labelText: 'End Date'),
+          ),
+          TextFormField(
+            controller: roleController,
+            decoration: const InputDecoration(labelText: 'Role'),
+          ),
+          TextFormField(
+            controller: imageController,
+            decoration: const InputDecoration(labelText: 'Image URL'),
+          ),
+          TextFormField(
+            controller: companyUrlController,
+            decoration: const InputDecoration(labelText: 'Company URL'),
+          ),
+          TextFormField(
+            controller: descriptionController,
+            decoration: const InputDecoration(labelText: 'Description'),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text("Projects"),
+          const SizedBox(
+            height: 10,
+          ),
+          // Display the project fields
+          if (projectFields.isNotEmpty)
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: projectFields.length,
+                itemBuilder: (context, index) => ProjectFormTile(
+                      project: projectFields[index],
+                      onDelete: (name) {
+                        setState(() {
+                          projectFields.removeWhere(
+                              (element) => element.projectName == name);
+                        });
+                      },
+                      ontap: (p) {
+                        Provider.of<WorkExperienceProvider>(context,
+                                listen: false)
+                            .updateExperienceProject(
+                                widget.experienceToEdit!.name, p);
+                      },
+                    )),
 
-                          onEditingComplete: () {
-                            // Update the project's name when the value changes
-                            projectFields[index].projectName =
-                                projectNameController.text;
-                            updateProjectInList(index, projectFields[index]);
-                          },
-                          textDirection: TextDirection
-                              .ltr, // Set the text direction to left-to-right
-                          textAlign: TextAlign
-                              .start, // Set the text alignment to start (left)
-                        ),
-                      ),
-                      DataCell(
-                        TextField(
-                          controller: urlController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onEditingComplete: () {
-                            // Update the project's URL when the value changes
-                            projectFields[index].projectUrl =
-                                urlController.text;
-                            updateProjectInList(index, projectFields[index]);
-                          },
-                          textDirection: TextDirection
-                              .ltr, // Set the text direction to left-to-right
-                          textAlign: TextAlign
-                              .start, // Set the text alignment to start (left)
-                        ),
-                      ),
-                      DataCell(
-                        TextField(
-                          controller: iosUrlController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onEditingComplete: () {
-                            // Update the project's iOS URL when the value changes
-                            projectFields[index].projectUrlIos =
-                                iosUrlController.text;
-                            updateProjectInList(index, projectFields[index]);
-                          },
-                          textDirection: TextDirection
-                              .ltr, // Set the text direction to left-to-right
-                          textAlign: TextAlign
-                              .start, // Set the text alignment to start (left)
-                        ),
-                      ),
-                      DataCell(
-                        TextField(
-                          controller: androidUrlController,
-                          decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                              ),
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          onEditingComplete: () {
-                            // Update the project's Android URL when the value changes
-                            projectFields[index].projectUrlAndroid =
-                                androidUrlController.text;
-                            updateProjectInList(index, projectFields[index]);
-                          },
-                          textDirection: TextDirection
-                              .ltr, // Set the text direction to left-to-right
-                          textAlign: TextAlign
-                              .start, // Set the text alignment to start (left)
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  projectFields.add(Project(
-                    projectName: "",
-                    projectUrl: "",
-                    projectUrlAndroid: "",
-                    projectUrlIos: "",
-                  ));
-                });
-              },
-              child: const Text('Add Project'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedExperience = ExperienceModel(
-                    name: nameController.text,
-                    location: locationController.text,
-                    startDate: startDateController.text,
-                    endDate: endDateController.text,
-                    role: roleController.text,
-                    image: imageController.text,
-                    description: descriptionController.text,
-                    projects: projectFields,
-                    url: companyUrlController.text);
-                final workExperienceProvider =
-                    Provider.of<WorkExperienceProvider>(context, listen: false);
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                projectFields.add(Project(
+                  projectName: "",
+                  projectUrl: "",
+                  projectUrlAndroid: "",
+                  projectUrlIos: "",
+                ));
+              });
+            },
+            child: const Text('Add Project'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final updatedExperience = ExperienceModel(
+                  name: nameController.text,
+                  location: locationController.text,
+                  startDate: startDateController.text,
+                  endDate: endDateController.text,
+                  role: roleController.text,
+                  image: imageController.text,
+                  description: descriptionController.text,
+                  projects: projectFields,
+                  url: companyUrlController.text);
+              final workExperienceProvider =
+                  Provider.of<WorkExperienceProvider>(context, listen: false);
 
-                if (widget.experienceToEdit != null) {
-                  // Edit the existing experience
-                  final index = workExperienceProvider.workExperiences
-                      .indexOf(widget.experienceToEdit!);
-                  workExperienceProvider.workExperiences[index] =
-                      updatedExperience;
-                } else {
-                  // Add the new experience
-                  workExperienceProvider.workExperiences.add(updatedExperience);
-                }
+              if (widget.experienceToEdit != null) {
+                // Edit the existing experience
+                workExperienceProvider.updateExperience(updatedExperience);
+              } else {
+                // Add the new experience
+                workExperienceProvider.workExperiences.add(updatedExperience);
+              }
 
-                await workExperienceProvider.updateWorkExperiences();
-                Navigator.pop(context);
-              },
-              child: Text(widget.experienceToEdit != null
-                  ? 'Save Changes'
-                  : 'Add Experience'),
-            ),
-          ],
-        ),
+              await workExperienceProvider.updateWorkExperiences();
+              Navigator.pop(context);
+            },
+            child: Text(widget.experienceToEdit != null
+                ? 'Save Changes'
+                : 'Add Experience'),
+          ),
+        ],
       ),
     );
   }

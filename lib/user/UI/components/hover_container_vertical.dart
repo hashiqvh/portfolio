@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class HoverContainerVertical extends StatefulWidget {
+  final bool active;
   final String ttile;
 
   const HoverContainerVertical({
     super.key,
     required this.ttile,
+    required this.active,
   });
 
   @override
@@ -32,9 +34,11 @@ class _HoverContainerState extends State<HoverContainerVertical> {
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: isHovered ? 60 : 40, // Adjust width based on hover state
+            width: widget.active || isHovered
+                ? 60
+                : 40, // Adjust width based on hover state
             height: 3,
-            color: isHovered
+            color: widget.active || isHovered
                 ? Colors.white
                 : const Color(0xFF94A3B8), // Change this to your secondaryColor
           ),
@@ -45,7 +49,9 @@ class _HoverContainerState extends State<HoverContainerVertical> {
             widget.ttile,
             style: TextStyle(
               fontSize: 12,
-              color: isHovered ? Colors.white : const Color(0xFF94A3B8),
+              color: widget.active || isHovered
+                  ? Colors.white
+                  : const Color(0xFF94A3B8),
             ),
           )
         ],
