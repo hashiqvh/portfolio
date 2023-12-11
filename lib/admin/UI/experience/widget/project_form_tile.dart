@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/core/models/experience_model.dart';
+import 'package:my_portfolio/core/models/project_model.dart';
 
 class ProjectFormTile extends StatefulWidget {
-  final Function(Project) ontap;
+  final Function(ProjectModel) ontap;
   final Function(String) onDelete;
-  final Project project;
+  final ProjectModel project;
 
   const ProjectFormTile(
       {super.key,
@@ -25,11 +25,11 @@ class ProjectFormTileState extends State<ProjectFormTile> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text(widget.project.projectName),
+      title: Text(widget.project.name),
       children: [
         ListTile(
           title: TextFormField(
-            readOnly: widget.project.projectName.isNotEmpty,
+            readOnly: widget.project.name.isNotEmpty,
             controller: projectNameController,
             decoration: const InputDecoration(labelText: 'Project Name'),
           ),
@@ -69,7 +69,7 @@ class ProjectFormTileState extends State<ProjectFormTile> {
             ),
             InkWell(
               onTap: () {
-                widget.onDelete(widget.project.projectName);
+                widget.onDelete(widget.project.name);
               },
               child: const Icon(
                 Icons.delete,
@@ -87,32 +87,14 @@ class ProjectFormTileState extends State<ProjectFormTile> {
     super.initState();
 
     // Initialize controllers with project values
-    projectNameController =
-        TextEditingController(text: widget.project.projectName);
+    projectNameController = TextEditingController(text: widget.project.name);
     projectUrlController =
-        TextEditingController(text: widget.project.projectUrl);
+        TextEditingController(text: widget.project.webAppUrl);
     projectUrlAndroidController =
-        TextEditingController(text: widget.project.projectUrlAndroid);
+        TextEditingController(text: widget.project.appUrl);
     projectUrlIosController =
-        TextEditingController(text: widget.project.projectUrlIos);
+        TextEditingController(text: widget.project.iosUrl);
   }
 
-  void saveProjectDetails() {
-    // Access the entered values using controllers
-    String projectName = projectNameController.text;
-    String projectUrl = projectUrlController.text;
-    String projectUrlAndroid = projectUrlAndroidController.text;
-    String projectUrlIos = projectUrlIosController.text;
-
-    // Create a Project instance and do something with the data
-    Project project = Project(
-      projectName: projectName,
-      projectUrl: projectUrl,
-      projectUrlAndroid: projectUrlAndroid,
-      projectUrlIos: projectUrlIos,
-    );
-    widget.ontap(project);
-    // You can now use the 'project' object as needed, for example, save it to a database.
-    print('Project Details Saved: ${project.toJson()}');
-  }
+  void saveProjectDetails() {}
 }

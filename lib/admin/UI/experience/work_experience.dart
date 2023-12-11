@@ -80,7 +80,7 @@ class _AdminWorkExperienceScreenState extends State<AdminWorkExperienceScreen> {
                                     children: [
                                       TextTile(
                                         heading: "Name of Company",
-                                        text: experience.name,
+                                        text: experience.companyName,
                                       ),
                                       const SizedBox(
                                         width: 20,
@@ -109,58 +109,6 @@ class _AdminWorkExperienceScreenState extends State<AdminWorkExperienceScreen> {
                                     heading: "Description of work",
                                     text: experience.description,
                                   ),
-                                  Wrap(
-                                    children: [
-                                      if (experience.projects.isNotEmpty)
-                                        ...experience.projects.map((e) {
-                                          return Container(
-                                            margin: const EdgeInsets.only(
-                                              top: kDefaultPadding,
-                                              left: kDefaultPadding,
-                                            ),
-                                            padding: const EdgeInsets.all(
-                                                kDefaultPadding),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: primaryColor
-                                                      .withOpacity(0.15)),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(
-                                                    kDefaultPadding),
-                                              ),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const Text("Project Name"),
-                                                Text(e.projectName),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                const Text("Project URL"),
-                                                Text(e.projectUrl),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                const Text("Project IOS"),
-                                                Text(e.projectUrlIos),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                const Text("Project Android"),
-                                                Text(e.projectUrlAndroid),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }),
-                                    ],
-                                  )
                                 ],
                               ),
                               ElevatedButton(

@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:my_portfolio/admin/UI/project/widget/base64_image_preview.dart';
+import 'package:my_portfolio/admin/UI/project/widget/company_name_dropdown.dart';
 import 'package:my_portfolio/core/models/project_model.dart';
 import 'package:my_portfolio/core/provider/project_provider.dart';
+import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditAddProjectScreen extends StatefulWidget {
@@ -19,12 +22,16 @@ class EditAddProjectScreen extends StatefulWidget {
 class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  List<String> imageList = [];
+
   TextEditingController playStoreUrlController = TextEditingController();
   TextEditingController githubUrlController = TextEditingController();
   TextEditingController appStoreUrlController = TextEditingController();
-
+  TextEditingController webUrlController = TextEditingController();
   bool isEditing = false;
+
+  XFile? _selectedImage;
+
+  String? _base64Image;
 
   @override
   Widget build(BuildContext context) {
@@ -35,96 +42,113 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
         body: Consumer<ProjectsProvider>(
           builder: (context, projectsProvider, child) => Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Project Name'),
-                ),
-                TextFormField(
-                  controller: descriptionController,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                ),
-                ElevatedButton(
-                  onPressed: _uploadImages,
-                  child: const Text('Upload Images'),
-                ),
-                if (imageList.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Uploaded Images:'),
-                      for (final imageUrl in imageList)
-                        Row(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: nameController,
+                    decoration:
+                        const InputDecoration(labelText: 'Project Name'),
+                  ),
+                  CompanyNameDropdown(
+                    experiences: Provider.of<WorkExperienceProvider>(context,
+                            listen: false)
+                        .workExperiences,
+                    onCompanySelected: (selectedCompany) {
+                      // Handle the selected company
+                      print('Selected Company: $selectedCompany');
+                    },
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    decoration: const InputDecoration(labelText: 'Description'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  widget.project != null
+                      ? Base64ImagePreview(
+                          base64Image: widget.project!.imageUrl,
+                          onReupload: _pickImage)
+                      : Stack(
+                          alignment: Alignment.center,
                           children: [
-                            Expanded(child: Text(imageUrl)),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                setState(() {
-                                  imageList.remove(imageUrl);
-                                });
-                              },
+                            Container(
+                              width: 200,
+                              height: 200,
+                              color: Colors.grey[300],
+                              child: _selectedImage != null
+                                  ? Image.network(
+                                      _selectedImage!.path,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    )
+                                  : null,
                             ),
+                            if (_selectedImage == null)
+                              ElevatedButton(
+                                onPressed: _pickImage,
+                                child: const Text('Select Image'),
+                              ),
+                            if (_selectedImage != null)
+                              Positioned(
+                                top: 10,
+                                right: 10,
+                                child: IconButton(
+                                  icon: const Icon(Icons.remove_circle),
+                                  onPressed: _removeImage,
+                                  color: Colors.red,
+                                ),
+                              ),
                           ],
                         ),
-                    ],
+                  const SizedBox(
+                    height: 10,
                   ),
-                TextFormField(
-                  controller: playStoreUrlController,
-                  decoration:
-                      const InputDecoration(labelText: 'Play Store URL'),
-                ),
-                TextFormField(
-                  controller: githubUrlController,
-                  decoration: const InputDecoration(labelText: 'GitHub URL'),
-                ),
-                TextFormField(
-                  controller: appStoreUrlController,
-                  decoration: const InputDecoration(labelText: 'App Store URL'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    final name = nameController.text;
-                    final description = descriptionController.text;
-                    final playStoreUrl = playStoreUrlController.text;
-                    final githubUrl = githubUrlController.text;
-                    final appStoreUrl = appStoreUrlController.text;
-
-                    if (name.isNotEmpty && description.isNotEmpty) {
-                      final updatedProject = ProjectModel(
+                  TextFormField(
+                    controller: playStoreUrlController,
+                    decoration:
+                        const InputDecoration(labelText: 'Play Store URL'),
+                  ),
+                  TextFormField(
+                    controller: githubUrlController,
+                    decoration: const InputDecoration(labelText: 'GitHub URL'),
+                  ),
+                  TextFormField(
+                    controller: appStoreUrlController,
+                    decoration:
+                        const InputDecoration(labelText: 'App Store URL'),
+                  ),
+                  TextFormField(
+                    controller: webUrlController,
+                    decoration: const InputDecoration(labelText: 'Web URL'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      final name = nameController.text;
+                      final description = descriptionController.text;
+                      final playStoreUrl = playStoreUrlController.text;
+                      final githubUrl = githubUrlController.text;
+                      final appStoreUrl = appStoreUrlController.text;
+                      var projectModel = ProjectModel(
+                        experienceId: 1,
                         name: name,
                         description: description,
-                        imageList: imageList.isNotEmpty ? imageList : null,
-                        playStoreUrl:
-                            playStoreUrl.isNotEmpty ? playStoreUrl : null,
-                        githubUrl: githubUrl.isNotEmpty ? githubUrl : null,
-                        appStoreUrl:
-                            appStoreUrl.isNotEmpty ? appStoreUrl : null,
+                        imageUrl: _base64Image!,
+                        appUrl: playStoreUrl,
+                        iosUrl: appStoreUrl,
+                        webAppUrl: webUrlController.text,
+                        githubUrl: githubUrl,
                       );
-                      var projects = projectsProvider.projects;
-                      if (isEditing) {
-                        // Editing an existing project
-
-                        final int index = projects.indexOf(widget.project!);
-                        setState(() {
-                          projects[index] = updatedProject;
-                        });
-                      } else {
-                        // Adding a new project
-                        setState(() {
-                          projects.add(updatedProject);
-                        });
-                      }
-                      // Update Firestore with the new content
-                      projectsProvider.updateProjects(projects);
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
+                      Provider.of<ProjectsProvider>(context, listen: false)
+                          .addProjects(projectModel, context);
+                    },
+                    child: const Text('Save'),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
@@ -133,56 +157,40 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
   @override
   void initState() {
     super.initState();
+    Future(() => Provider.of<WorkExperienceProvider>(context, listen: false)
+        .fetchWorkExperiences());
     if (widget.project != null) {
       isEditing = true;
       nameController.text = widget.project!.name ?? '';
       descriptionController.text = widget.project!.description ?? '';
-      if (widget.project!.imageList != null) {
-        imageList.addAll(widget.project!.imageList!);
-      }
-      playStoreUrlController.text = widget.project!.playStoreUrl ?? '';
+
+      playStoreUrlController.text = widget.project!.appUrl ?? '';
       githubUrlController.text = widget.project!.githubUrl ?? '';
-      appStoreUrlController.text = widget.project!.appStoreUrl ?? '';
+      appStoreUrlController.text = widget.project!.iosUrl ?? '';
+      webUrlController.text = widget.project!.webAppUrl ?? "";
     }
   }
 
-  Future<void> _uploadImages() async {
-    FilePickerResult? result;
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    try {
-      result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-      );
-    } catch (e) {
-      print(e);
+    if (pickedFile != null) {
+      final bytes = await pickedFile.readAsBytes();
+      final base64Image = base64Encode(Uint8List.fromList(bytes));
+
+      setState(() {
+        _selectedImage = pickedFile;
+        widget.project!.imageUrl = "";
+        _base64Image = base64Image;
+      });
     }
+  }
 
-    if (result != null) {
-      final firebaseStorage = FirebaseStorage.instance;
-
-      for (final file in result.files) {
-        try {
-          final Uint8List uploadFile = file.bytes!;
-
-          final String fileName = file.name;
-
-          Reference storageRef =
-              firebaseStorage.ref().child('project_images/$fileName');
-
-          final UploadTask uploadTask = storageRef.putData(uploadFile);
-
-          final TaskSnapshot downloadUrl = await uploadTask;
-
-          final String imageUrl = (await downloadUrl.ref.getDownloadURL());
-
-          setState(() {
-            imageList.add(imageUrl);
-          });
-        } catch (e) {
-          print(e);
-        }
-      }
-    }
+  void _removeImage() {
+    setState(() {
+      _selectedImage = null;
+      _base64Image = null;
+    });
   }
 }

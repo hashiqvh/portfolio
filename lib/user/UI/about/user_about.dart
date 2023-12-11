@@ -31,11 +31,15 @@ class UserAboutScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             currentScreen == Screens.phone || currentScreen == Screens.tablet
-                ? const Text(
+                ? Text(
                     'ABOUT',
                     style: TextStyle(
-                      color: Color(0xFFE2E8F0),
-                      fontSize: 25,
+                      color: const Color(0xFFE2E8F0),
+                      fontSize: getFontSizeForScreen(
+                          tabSize: 25,
+                          phoneSize: 20,
+                          webSize: 25,
+                          currentScreen: currentScreen),
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                       //   height: 0.10,
@@ -51,10 +55,11 @@ class UserAboutScreen extends StatelessWidget {
             Text(
               about,
               style: TextStyle(
-                fontSize: currentScreen == Screens.phone ||
-                        currentScreen == Screens.tablet
-                    ? 20
-                    : 16,
+                fontSize: getFontSizeForScreen(
+                    tabSize: 16,
+                    phoneSize: 16,
+                    webSize: 16,
+                    currentScreen: currentScreen),
               ),
             ),
           ],

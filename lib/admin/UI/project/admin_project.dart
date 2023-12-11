@@ -65,23 +65,23 @@ class _AdminProjectsScreenState extends State<AdminProjectsScreen> {
                                   children: [
                                     TextTile(
                                       heading: "Project Name",
-                                      text: project.name!,
+                                      text: project.name,
                                     ),
                                     TextTile(
                                       heading: "Project Description",
-                                      text: project.description!.toString(),
+                                      text: project.description.toString(),
                                     ),
                                     TextTile(
                                       heading: "Github",
-                                      text: project.githubUrl!.toString(),
+                                      text: project.githubUrl.toString(),
                                     ),
                                     TextTile(
                                       heading: "App Store",
-                                      text: project.appStoreUrl!.toString(),
+                                      text: project.iosUrl.toString(),
                                     ),
                                     TextTile(
                                       heading: "Play Store",
-                                      text: project.playStoreUrl!.toString(),
+                                      text: project.appUrl.toString(),
                                     ),
                                   ],
                                 ),

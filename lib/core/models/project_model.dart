@@ -1,41 +1,46 @@
 class ProjectModel {
-  final String? name;
-  final String? description;
-  final List<String>? imageList;
-  final String? playStoreUrl;
-  final String? githubUrl;
-  final String? appStoreUrl;
+  final int? id;
+  final int experienceId;
+  final String name;
+  final String description;
+  String imageUrl;
+  final String appUrl;
+  final String iosUrl;
+  final dynamic webAppUrl;
+  final String githubUrl;
 
   ProjectModel({
-    this.name,
-    this.description,
-    this.imageList,
-    this.playStoreUrl,
-    this.githubUrl,
-    this.appStoreUrl,
+    this.id,
+    required this.experienceId,
+    required this.name,
+    required this.description,
+    required this.imageUrl,
+    required this.appUrl,
+    required this.iosUrl,
+    required this.webAppUrl,
+    required this.githubUrl,
   });
 
-  // Create a ProjectModel instance from a Map
-  factory ProjectModel.fromMap(Map<String, dynamic> map) {
-    return ProjectModel(
-      name: map['name'],
-      description: map['description'] ?? "",
-      imageList: List<String>.from(map['imageList'] ?? []),
-      playStoreUrl: map['playStoreUrl'] ?? "",
-      githubUrl: map['githubUrl'] ?? "",
-      appStoreUrl: map['appStoreUrl'] ?? "",
-    );
-  }
+  factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
+        id: json["id"],
+        experienceId: json["experience_id"],
+        name: json["name"],
+        description: json["description"],
+        imageUrl: json["image_url"],
+        appUrl: json["app_url"],
+        iosUrl: json["ios_url"],
+        webAppUrl: json["web_app_url"],
+        githubUrl: json["github_url"],
+      );
 
-  // Convert a ProjectModel instance to a Map
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'description': description,
-      'imageList': imageList,
-      'playStoreUrl': playStoreUrl,
-      'githubUrl': githubUrl,
-      'appStoreUrl': appStoreUrl,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "experience_id": experienceId,
+        "name": name,
+        "description": description,
+        "image_url": imageUrl,
+        "app_url": appUrl,
+        "ios_url": iosUrl,
+        "web_app_url": webAppUrl,
+        "github_url": githubUrl,
+      };
 }

@@ -31,11 +31,12 @@ class _ExperienceBoxState extends State<ExperienceBox> {
         child: Container(
           width: 528,
           margin: EdgeInsets.only(
-              bottom: widget.currentScreen == Screens.phone
-                  ? 30
-                  : widget.currentScreen == Screens.tablet
-                      ? 30
-                      : 48),
+            bottom: getFontSizeForScreen(
+                tabSize: 30,
+                phoneSize: 30,
+                webSize: 40,
+                currentScreen: widget.currentScreen),
+          ),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: secondaryColor.withOpacity(0.2),
@@ -69,13 +70,16 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                     '2018 — PRESENT',
                     style: TextStyle(
                       color: const Color(0xFF64748B),
-                      fontSize: widget.currentScreen == Screens.phone
-                          ? 22
-                          : widget.currentScreen == Screens.tablet
-                              ? 22
-                              : 12,
+                      fontSize: getFontSizeForScreen(
+                          tabSize: 12,
+                          phoneSize: 17,
+                          webSize: 12,
+                          currentScreen: widget.currentScreen),
 
-                      fontWeight: FontWeight.w600,
+                      fontWeight: widget.currentScreen == Screens.phone ||
+                              widget.currentScreen == Screens.tablet
+                          ? FontWeight.w400
+                          : FontWeight.w500,
                       // height: 0.11,
                       letterSpacing: 0.30,
                     ),
@@ -91,14 +95,15 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                           'Lead Engineer · Flutter Development',
                           style: TextStyle(
                             color: const Color(0xFFE2E8F0),
-                            fontSize: widget.currentScreen == Screens.phone ||
-                                    widget.currentScreen == Screens.tablet
-                                ? 23
-                                : 16,
+                            fontSize: getFontSizeForScreen(
+                                tabSize: 16,
+                                phoneSize: 19,
+                                webSize: 16,
+                                currentScreen: widget.currentScreen),
 
                             fontWeight: widget.currentScreen == Screens.phone ||
                                     widget.currentScreen == Screens.tablet
-                                ? FontWeight.w700
+                                ? FontWeight.w400
                                 : FontWeight.w500,
                             //height: 0.08,
                           ),
@@ -111,10 +116,11 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                           'Deliver high-quality, robust production code for a diverse array of projects for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, Koala Health, Vanderbilt University, The 19th News, and more.Provide leadership within engineering department through close collaboration, knowledge shares, and mentorship.',
                           style: TextStyle(
                             color: const Color(0xFF94A3B8),
-                            fontSize: widget.currentScreen == Screens.phone ||
-                                    widget.currentScreen == Screens.tablet
-                                ? 20
-                                : 14,
+                            fontSize: getFontSizeForScreen(
+                                tabSize: 14,
+                                phoneSize: 18,
+                                webSize: 14,
+                                currentScreen: widget.currentScreen),
 
                             fontWeight: FontWeight.w400,
                             // height: 0.11,
@@ -137,9 +143,11 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                 children: [
                                   Icon(
                                     FontAwesomeIcons.link,
-                                    size: widget.currentScreen == Screens.phone
-                                        ? 5
-                                        : 10,
+                                    size: getFontSizeForScreen(
+                                        tabSize: 12,
+                                        phoneSize: 12,
+                                        webSize: 12,
+                                        currentScreen: widget.currentScreen),
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -148,12 +156,11 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                     'The Verge',
                                     style: TextStyle(
                                       color: const Color(0xFFCBD5E1),
-                                      fontSize: widget.currentScreen ==
-                                                  Screens.phone ||
-                                              widget.currentScreen ==
-                                                  Screens.tablet
-                                          ? 22
-                                          : 14,
+                                      fontSize: getFontSizeForScreen(
+                                          tabSize: 14,
+                                          phoneSize: 12,
+                                          webSize: 14,
+                                          currentScreen: widget.currentScreen),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

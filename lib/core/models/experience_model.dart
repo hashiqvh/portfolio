@@ -1,76 +1,68 @@
+// To parse this JSON data, do
+//
+//     final experienceModel = experienceModelFromJson(jsonString);
+
+import 'dart:convert';
+
+import 'package:my_portfolio/core/models/project_model.dart';
+
+ExperienceModel experienceModelFromJson(String str) =>
+    ExperienceModel.fromJson(json.decode(str));
+
+String experienceModelToJson(ExperienceModel data) =>
+    json.encode(data.toJson());
+
 class ExperienceModel {
-  final String name;
-  final String location;
+  final int? id;
+  final String companyName;
+  final String companyUrl;
   final String startDate;
   final String endDate;
   final String role;
-  final String image;
+  final String location;
   final String description;
-  final String url;
-  final List<Project> projects;
+  final List<String> skills;
+
+  final List<ProjectModel>? projects;
 
   ExperienceModel({
-    required this.name,
-    required this.location,
+    this.id,
     required this.startDate,
-    required this.endDate,
     required this.role,
-    required this.image,
+    required this.endDate,
+    required this.companyName,
+    required this.companyUrl,
     required this.description,
-    required this.url,
-    required this.projects,
+    required this.skills,
+    required this.location,
+    this.projects,
   });
 
-  factory ExperienceModel.fromMap(Map<String, dynamic> json) => ExperienceModel(
-        name: json["name"],
-        location: json["location"],
-        startDate: json["startDate"],
-        endDate: json["endDate"],
-        role: json["role"],
-        image: json["image"],
+  factory ExperienceModel.fromJson(Map<String, dynamic> json) =>
+      ExperienceModel(
+        id: json["id"],
+        role: json['role'],
+        companyName: json["company_name"],
+        startDate: json["start_date"],
+        endDate: json["end_date"],
+        companyUrl: json["company_url"],
         description: json["description"],
-        url: json["url"],
-        projects: List<Project>.from(
-            json["projects"].map((x) => Project.fromJson(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "name": name,
-        "location": location,
-        "startDate": startDate,
-        "endDate": endDate,
-        "role": role,
-        "image": image,
-        "description": description,
-        "url": url,
-        "projects": List<dynamic>.from(projects.map((x) => x.toJson())),
-      };
-}
-
-class Project {
-  String projectName;
-  String projectUrl;
-  String projectUrlAndroid;
-  String projectUrlIos;
-
-  Project({
-    required this.projectName,
-    required this.projectUrl,
-    required this.projectUrlAndroid,
-    required this.projectUrlIos,
-  });
-
-  factory Project.fromJson(Map<String, dynamic> json) => Project(
-        projectName: json["project_name"],
-        projectUrl: json["project_url"],
-        projectUrlAndroid: json['project_android_url'],
-        projectUrlIos: json['project_ios_url'],
+        location: json['location'],
+        skills: List<String>.from(json["skills"].map((x) => x)),
+        projects: json["projects"] == null
+            ? []
+            : List<ProjectModel>.from(
+                json["projects"].map((x) => ProjectModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "project_name": projectName,
-        "project_url": projectUrl,
-        "project_android_url": projectUrlAndroid,
-        "project_ios_url": projectUrlIos,
+        "company_name": companyName,
+        "role": role,
+        "start_date": startDate,
+        "end_date": endDate,
+        "company_url": companyUrl,
+        "location": location,
+        "description": description,
+        "skills": List<dynamic>.from(skills.map((x) => x)),
       };
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/admin/UI/experience/widget/project_form_tile.dart';
 import 'package:my_portfolio/const/diments.dart';
 import 'package:my_portfolio/core/models/experience_model.dart';
 import 'package:my_portfolio/core/provider/work_experience_provider.dart';
@@ -23,10 +22,9 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   TextEditingController roleController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
 
-  List<Project> projectFields = [];
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController skillsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +58,8 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
             decoration: const InputDecoration(labelText: 'Role'),
           ),
           TextFormField(
-            controller: imageController,
-            decoration: const InputDecoration(labelText: 'Image URL'),
+            controller: skillsController,
+            decoration: const InputDecoration(labelText: 'skills'),
           ),
           TextFormField(
             controller: companyUrlController,
@@ -72,73 +70,34 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
             decoration: const InputDecoration(labelText: 'Description'),
           ),
           const SizedBox(
-            height: 10,
-          ),
-          const Text("Projects"),
-          const SizedBox(
-            height: 10,
-          ),
-          // Display the project fields
-          if (projectFields.isNotEmpty)
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: projectFields.length,
-                itemBuilder: (context, index) => ProjectFormTile(
-                      project: projectFields[index],
-                      onDelete: (name) {
-                        setState(() {
-                          projectFields.removeWhere(
-                              (element) => element.projectName == name);
-                        });
-                      },
-                      ontap: (p) {
-                        Provider.of<WorkExperienceProvider>(context,
-                                listen: false)
-                            .updateExperienceProject(
-                                widget.experienceToEdit!.name, p);
-                      },
-                    )),
-
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                projectFields.add(Project(
-                  projectName: "",
-                  projectUrl: "",
-                  projectUrlAndroid: "",
-                  projectUrlIos: "",
-                ));
-              });
-            },
-            child: const Text('Add Project'),
-          ),
-          const SizedBox(
             height: 20,
           ),
           ElevatedButton(
             onPressed: () async {
-              final updatedExperience = ExperienceModel(
-                  name: nameController.text,
-                  location: locationController.text,
-                  startDate: startDateController.text,
-                  endDate: endDateController.text,
-                  role: roleController.text,
-                  image: imageController.text,
-                  description: descriptionController.text,
-                  projects: projectFields,
-                  url: companyUrlController.text);
-              final workExperienceProvider =
-                  Provider.of<WorkExperienceProvider>(context, listen: false);
+              String enteredSkills = skillsController.text.trim();
+              List<String> skills = enteredSkills
+                  .split(',')
+                  .map((skill) => skill.trim())
+                  .toList();
 
+              ExperienceModel experienceModel = ExperienceModel(
+                startDate: startDateController.text,
+                role: roleController.text,
+                endDate: endDateController.text,
+                companyName: nameController.text,
+                companyUrl: companyUrlController.text,
+                description: descriptionController.text,
+                skills: skills,
+                location: locationController.text,
+              );
               if (widget.experienceToEdit != null) {
-                // Edit the existing experience
-                workExperienceProvider.updateExperience(updatedExperience);
+                Provider.of<WorkExperienceProvider>(context, listen: false)
+                    .updateExperience(
+                        context, experienceModel, widget.experienceToEdit!.id!);
               } else {
-                // Add the new experience
-                workExperienceProvider.workExperiences.add(updatedExperience);
+                Provider.of<WorkExperienceProvider>(context, listen: false)
+                    .addExperience(context, experienceModel);
               }
-
-              await workExperienceProvider.updateWorkExperiences();
               Navigator.pop(context);
             },
             child: Text(widget.experienceToEdit != null
@@ -157,22 +116,16 @@ class _AdminAddExperienceScreenState extends State<AdminAddExperienceScreen> {
     // Check if there's an experience to edit
     if (widget.experienceToEdit != null) {
       // If editing an existing experience, populate the fields with its data
-      nameController.text = widget.experienceToEdit!.name;
+      nameController.text = widget.experienceToEdit!.companyName;
       locationController.text = widget.experienceToEdit!.location;
       startDateController.text = widget.experienceToEdit!.startDate;
       endDateController.text = widget.experienceToEdit!.endDate;
       roleController.text = widget.experienceToEdit!.role;
-      imageController.text = widget.experienceToEdit!.image;
+      List<String> skills = widget.experienceToEdit!.skills;
+
+      skillsController.text = skills.join(', ');
+      companyUrlController.text = widget.experienceToEdit!.companyUrl;
       descriptionController.text = widget.experienceToEdit!.description;
-
-      projectFields.addAll(widget.experienceToEdit!.projects);
     }
-  }
-
-  ///  function to update the project in the list
-  void updateProjectInList(int index, Project updatedProject) {
-    setState(() {
-      projectFields[index] = updatedProject;
-    });
   }
 }

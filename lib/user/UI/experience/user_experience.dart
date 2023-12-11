@@ -12,11 +12,15 @@ class Experience extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         currentScreen == Screens.phone || currentScreen == Screens.tablet
-            ? const Text(
+            ? Text(
                 'EXPERIENCE',
                 style: TextStyle(
-                  color: Color(0xFFE2E8F0),
-                  fontSize: 29,
+                  color: const Color(0xFFE2E8F0),
+                  fontSize: getFontSizeForScreen(
+                      tabSize: 25,
+                      phoneSize: 20,
+                      webSize: 25,
+                      currentScreen: currentScreen),
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,
                   //   height: 0.10,

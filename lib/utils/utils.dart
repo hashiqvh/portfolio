@@ -12,11 +12,21 @@ double calculatePaddingHeight(Screens currentScreen) {
   }
 }
 
+double calculatePaddingLeftWidth(Screens currentScreen) {
+  if (currentScreen == Screens.laptop) {
+    return 120 + 80;
+  } else if (currentScreen == Screens.tablet) {
+    return 90;
+  } else {
+    return 30;
+  }
+}
+
 double calculatePaddingWidth(Screens currentScreen) {
   if (currentScreen == Screens.laptop) {
-    return 120;
+    return 60;
   } else if (currentScreen == Screens.tablet) {
-    return 100;
+    return 90;
   } else {
     return 30;
   }
@@ -35,6 +45,22 @@ EdgeInsets getCustomPadding({
     return const EdgeInsets.symmetric(
         horizontal: 24.0,
         vertical: 16.0); // Default padding for large screens in portrait mode
+  }
+}
+
+double getFontSizeForScreen({
+  required double tabSize,
+  required double phoneSize,
+  required double webSize,
+  required Screens currentScreen,
+}) {
+  switch (currentScreen) {
+    case Screens.laptop:
+      return webSize;
+    case Screens.tablet:
+      return tabSize;
+    case Screens.phone:
+      return phoneSize;
   }
 }
 

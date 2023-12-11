@@ -1,12 +1,29 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/core/models/project_model.dart'; // Import your ProjectModel class
+import 'package:my_portfolio/core/models/project_model.dart';
+import 'package:my_portfolio/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'; // Import your ProjectModel class
 
 class ProjectsProvider extends ChangeNotifier {
   List<ProjectModel> _projects = [];
 
   bool isLoadingProjects = false;
   List<ProjectModel> get projects => _projects;
+  addProjects(ProjectModel projectModel, BuildContext context) async {
+    PostgrestResponse response = await supabase.from('project').upsert(
+        projectModel.toJson(),
+        options: const FetchOptions(forceResponse: true));
+    if (response.status == 201) {
+      log("Successfully added");
+      fetchProjects();
+      Navigator.pop(context);
+    } else {
+      log("Something went wrong");
+    }
+  }
+
   Future<void> createInitialProjects() async {
     final firestore = FirebaseFirestore.instance;
     final projectsCollection = firestore.collection("projects");
@@ -23,21 +40,19 @@ class ProjectsProvider extends ChangeNotifier {
   // Function to fetch the "Projects" data from Firestore
   Future<void> fetchProjects() async {
     isLoadingProjects = true;
-    final firestore = FirebaseFirestore.instance;
-    final projectsCollection = firestore.collection("projects");
+    PostgrestResponse response = await supabase
+        .from('project')
+        .select('*', const FetchOptions(forceResponse: true));
 
-    final querySnapshot = await projectsCollection.get();
+    if (response.status == 200) {
+      _projects = [];
 
-    if (querySnapshot.docs.isNotEmpty) {
-      final projectsData = querySnapshot.docs.first['projects'];
-
-      _projects = projectsData == []
-          ? []
-          : List<ProjectModel>.from(
-              projectsData.map((data) => ProjectModel.fromMap(data)));
+      _projects = List<ProjectModel>.from(
+          response.data.map((x) => ProjectModel.fromJson(x)));
     } else {
-      await createInitialProjects();
+      _projects = [];
     }
+
     isLoadingProjects = false;
     notifyListeners();
   }
@@ -50,7 +65,7 @@ class ProjectsProvider extends ChangeNotifier {
     final docSnapshot = await projectsCollection.get();
 
     if (docSnapshot.docs.isNotEmpty) {
-      final projectsData = projects.map((project) => project.toMap()).toList();
+      final projectsData = projects.map((project) => project.toJson()).toList();
 
       await projectsCollection.doc(docSnapshot.docs.first.id).update({
         'projects': projectsData,

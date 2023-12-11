@@ -79,7 +79,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       currentScreen: currentScreen,
                       child: Padding(
                         padding: EdgeInsets.only(
-                          left: calculatePaddingWidth(currentScreen),
+                          left: calculatePaddingLeftWidth(currentScreen),
                           top: currentScreen == Screens.phone
                               ? 15
                               : currentScreen == Screens.tablet
@@ -103,11 +103,15 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                             Text(
                               value.dataResponse
                                   .introductoryContent['title_one'],
-                              style: const TextStyle(
-                                color: Color(0xFFE2E8F0),
-                                fontSize: 48,
+                              style: TextStyle(
+                                color: const Color(0xFFE2E8F0),
+                                fontSize: getFontSizeForScreen(
+                                    tabSize: 36,
+                                    phoneSize: 35,
+                                    webSize: 48,
+                                    currentScreen: currentScreen),
                                 fontWeight: FontWeight.w700,
-                                letterSpacing: -1.20,
+                                letterSpacing: -1,
                               ),
                             ),
                             SizedBox(
@@ -122,10 +126,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   .introductoryContent['title_two'],
                               style: TextStyle(
                                 color: const Color(0xFFE2E8F0),
-                                fontSize: currentScreen == Screens.phone ||
-                                        currentScreen == Screens.tablet
-                                    ? 30
-                                    : 20,
+                                fontSize: getFontSizeForScreen(
+                                    tabSize: 18,
+                                    phoneSize: 20,
+                                    webSize: 20,
+                                    currentScreen: currentScreen),
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.50,
                               ),
@@ -145,10 +150,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                     .introductoryContent['title_three'],
                                 style: TextStyle(
                                   color: const Color(0xFF94A3B8),
-                                  fontSize: currentScreen == Screens.phone ||
-                                          currentScreen == Screens.tablet
-                                      ? 20
-                                      : 16,
+                                  fontSize: getFontSizeForScreen(
+                                      tabSize: 16,
+                                      phoneSize: 18,
+                                      webSize: 16,
+                                      currentScreen: currentScreen),
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -197,7 +203,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         shrinkWrap: true,
                         padding: EdgeInsets.only(
                           left: calculatePaddingWidth(currentScreen),
-                          right: calculatePaddingWidth(currentScreen),
+                          right: calculatePaddingLeftWidth(currentScreen),
                         ),
                         controller: _scrollController,
                         itemCount: 3,

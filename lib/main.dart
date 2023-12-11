@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_portfolio/const.dart';
@@ -13,15 +14,24 @@ import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:my_portfolio/firebase_options.dart';
 import 'package:my_portfolio/route_configuration.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://lqykieuptuztmjpvrpgc.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxeWtpZXVwdHV6dG1qcHZycGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc4MTEwODMsImV4cCI6MjAxMzM4NzA4M30.9Bow2IZFAxznzWUddlRb1YeG5dFrVPfrN-XiGExAWJQ',
+    authFlowType: AuthFlowType.pkce,
+  );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   setPathUrlStrategy(); //this removes the '#' from my url
 
   runApp(const MyApp());
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -37,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserDataProvider>(
