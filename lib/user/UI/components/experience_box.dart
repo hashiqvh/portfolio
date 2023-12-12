@@ -109,9 +109,12 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                           child: Text(
                             "${widget.experienceModel.role} . ${widget.experienceModel.companyName}",
                             style: TextStyle(
-                              color: isHovered
+                              color: widget.currentScreen == Screens.phone ||
+                                      widget.currentScreen == Screens.tablet
                                   ? primaryColor
-                                  : const Color(0xFFE2E8F0),
+                                  : isHovered
+                                      ? primaryColor
+                                      : const Color(0xFFE2E8F0),
                               fontSize: getFontSizeForScreen(
                                 tabSize: 16,
                                 phoneSize: 19,
