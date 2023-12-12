@@ -7,7 +7,6 @@ import 'package:my_portfolio/admin/UI/project/widget/base64_image_preview.dart';
 import 'package:my_portfolio/admin/UI/project/widget/company_name_dropdown.dart';
 import 'package:my_portfolio/core/models/project_model.dart';
 import 'package:my_portfolio/core/provider/project_provider.dart';
-import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditAddProjectScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
   bool isEditing = false;
 
   XFile? _selectedImage;
-
+  int selectedExperience = 0;
   String? _base64Image;
 
   @override
@@ -52,10 +51,10 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
                         const InputDecoration(labelText: 'Project Name'),
                   ),
                   CompanyNameDropdown(
-                    experiences: Provider.of<WorkExperienceProvider>(context,
-                            listen: false)
-                        .workExperiences,
                     onCompanySelected: (selectedCompany) {
+                      setState(() {
+                        selectedExperience = selectedCompany.id!;
+                      });
                       // Handle the selected company
                       print('Selected Company: $selectedCompany');
                     },
@@ -132,18 +131,25 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
                       final playStoreUrl = playStoreUrlController.text;
                       final githubUrl = githubUrlController.text;
                       final appStoreUrl = appStoreUrlController.text;
+                      final webUrl = webUrlController.text;
                       var projectModel = ProjectModel(
-                        experienceId: 1,
+                        experienceId: selectedExperience,
                         name: name,
                         description: description,
-                        imageUrl: _base64Image!,
+                        imageUrl: _base64Image ?? "",
                         appUrl: playStoreUrl,
                         iosUrl: appStoreUrl,
-                        webAppUrl: webUrlController.text,
+                        webAppUrl: webUrl,
                         githubUrl: githubUrl,
                       );
-                      Provider.of<ProjectsProvider>(context, listen: false)
-                          .addProjects(projectModel, context);
+                      if (widget.project != null) {
+                        Provider.of<ProjectsProvider>(context, listen: false)
+                            .updateProjects(
+                                projectModel, context, widget.project!.id!);
+                      } else {
+                        Provider.of<ProjectsProvider>(context, listen: false)
+                            .addProjects(projectModel, context);
+                      }
                     },
                     child: const Text('Save'),
                   ),
@@ -157,10 +163,10 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
   @override
   void initState() {
     super.initState();
-    Future(() => Provider.of<WorkExperienceProvider>(context, listen: false)
-        .fetchWorkExperiences());
+
     if (widget.project != null) {
       isEditing = true;
+      selectedExperience = widget.project!.id!;
       nameController.text = widget.project!.name ?? '';
       descriptionController.text = widget.project!.description ?? '';
 

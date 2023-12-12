@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
+import 'package:my_portfolio/core/models/project_model.dart';
+import 'package:my_portfolio/user/UI/components/hover_icon.dart';
 import 'package:my_portfolio/user/layout.dart';
 import 'package:my_portfolio/utils/utils.dart';
 
 class ProjectBox extends StatefulWidget {
+  final ProjectModel projectModel;
   final Screens currentScreen;
-  const ProjectBox({super.key, required this.currentScreen});
+  const ProjectBox(
+      {super.key, required this.currentScreen, required this.projectModel});
 
   @override
   State<ProjectBox> createState() => _ProjectBoxState();
@@ -76,7 +80,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Lead Engineer · Flutter Development',
+                          widget.projectModel.name,
                           style: TextStyle(
                             color: const Color(0xFFE2E8F0),
                             fontSize: getFontSizeForScreen(
@@ -97,7 +101,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                                 ? 10
                                 : 6.30),
                         Text(
-                          'Deliver high-quality, robust production code for a diverse\narray of projects for clients including Harvard Business\nSchool, Everytown for Gun Safety, Pratt Institute, Koala\nHealth, Vanderbilt University, The 19th News, and more.\nProvide leadership within engineering department through\nclose collaboration, knowledge shares, and mentorship.',
+                          widget.projectModel.description,
                           style: TextStyle(
                             color: const Color(0xFF94A3B8),
                             fontSize: getFontSizeForScreen(
@@ -120,34 +124,39 @@ class _ProjectBoxState extends State<ProjectBox> {
                               padding: const EdgeInsets.only(
                                   right: 16, bottom: 3.60),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    FontAwesomeIcons.link,
-                                    size: getFontSizeForScreen(
-                                        tabSize: 14,
-                                        phoneSize: 12,
-                                        webSize: 14,
-                                        currentScreen: widget.currentScreen),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'The Verge',
-                                    style: TextStyle(
-                                      color: const Color(0xFFCBD5E1),
-                                      fontSize: widget.currentScreen ==
-                                                  Screens.phone ||
-                                              widget.currentScreen ==
-                                                  Screens.tablet
-                                          ? 22
-                                          : 14,
-                                      fontWeight: FontWeight.w500,
+                                  if (widget.projectModel.githubUrl.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: HoverIcon(
+                                          link: widget.projectModel.githubUrl,
+                                          iconData: FontAwesomeIcons.github,
+                                          screens: widget.currentScreen),
                                     ),
-                                  ),
+                                  if (widget.projectModel.appUrl.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: HoverIcon(
+                                          link: widget.projectModel.appUrl,
+                                          iconData: FontAwesomeIcons.play,
+                                          screens: widget.currentScreen),
+                                    ),
+                                  if (widget.projectModel.iosUrl.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: HoverIcon(
+                                          link: widget.projectModel.iosUrl,
+                                          iconData: FontAwesomeIcons.appStore,
+                                          screens: widget.currentScreen),
+                                    ),
+                                  if (widget.projectModel.webAppUrl.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: HoverIcon(
+                                          link: widget.projectModel.webAppUrl,
+                                          iconData: FontAwesomeIcons.link,
+                                          screens: widget.currentScreen),
+                                    ),
                                 ],
                               ),
                             ),

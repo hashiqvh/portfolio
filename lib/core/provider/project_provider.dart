@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/core/models/project_model.dart';
 import 'package:my_portfolio/main.dart';
@@ -24,19 +23,6 @@ class ProjectsProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createInitialProjects() async {
-    final firestore = FirebaseFirestore.instance;
-    final projectsCollection = firestore.collection("projects");
-
-    final initialData = [];
-
-    await projectsCollection.add({'projects': initialData});
-
-    _projects = [];
-
-    notifyListeners();
-  }
-
   // Function to fetch the "Projects" data from Firestore
   Future<void> fetchProjects() async {
     isLoadingProjects = true;
@@ -58,20 +44,23 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   // Function to update the "Projects" data in Firestore
-  Future<void> updateProjects(List<ProjectModel> updatedProjects) async {
-    final firestore = FirebaseFirestore.instance;
-    final projectsCollection = firestore.collection("projects");
-
-    final docSnapshot = await projectsCollection.get();
-
-    if (docSnapshot.docs.isNotEmpty) {
-      final projectsData = projects.map((project) => project.toJson()).toList();
-
-      await projectsCollection.doc(docSnapshot.docs.first.id).update({
-        'projects': projectsData,
-      });
+  Future<void> updateProjects(
+    ProjectModel projectModel,
+    BuildContext context,
+    int id,
+  ) async {
+    PostgrestResponse response = await supabase
+        .from('project')
+        .update(projectModel.toJson(),
+            options: const FetchOptions(forceResponse: true))
+        .match({"id": id});
+    if (response.status == 204) {
+      log("Successfully added");
+      fetchProjects();
+      Navigator.pop(context);
+    } else {
+      log("Something went wrong");
     }
-    _projects = updatedProjects;
     notifyListeners();
   }
 }

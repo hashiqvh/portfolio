@@ -30,10 +30,11 @@ class DataProvider extends ChangeNotifier {
     var projectsproviderr =
         Provider.of<ProjectsProvider>(context, listen: false);
     try {
+      await workExperienceProvider.fetchWorkExperiences();
       await introProvider.fetchIntroductoryContent();
       await aboutProvider.fetchAboutUsData();
       await skillsProvider.fetchSkills();
-      await workExperienceProvider.fetchWorkExperiences();
+
       await projectsproviderr.fetchProjects();
     } catch (error) {
       print('Error fetching data: $error');

@@ -27,9 +27,10 @@ class WorkExperienceProvider extends ChangeNotifier {
   Future<void> fetchWorkExperiences() async {
     print("Fetching work experiences from Firestore");
     isLoaded = true;
-    PostgrestResponse response = await supabase
-        .from('experience')
-        .select('*', const FetchOptions(forceResponse: true));
+    PostgrestResponse response = await supabase.rpc(
+      'get_experiences_with_projects',
+      options: const FetchOptions(forceResponse: true),
+    );
 
     if (response.status == 200) {
       workExperiences = [];

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/core/provider/project_provider.dart';
 import 'package:my_portfolio/user/UI/components/project_box.dart';
 import 'package:my_portfolio/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class Projects extends StatelessWidget {
   final Screens currentScreen;
@@ -33,13 +35,21 @@ class Projects extends StatelessWidget {
                 height: 20,
               )
             : const SizedBox(),
-        ListView.builder(
-            primary: false,
-            itemCount: 3,
-            shrinkWrap: true,
-            itemBuilder: (context, index) => ProjectBox(
-                  currentScreen: currentScreen,
-                )),
+        Consumer<ProjectsProvider>(
+          builder: (context, projectProvider, child) =>
+              projectProvider.isLoadingProjects
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      primary: false,
+                      itemCount: projectProvider.projects.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => ProjectBox(
+                            projectModel: projectProvider.projects[index],
+                            currentScreen: currentScreen,
+                          )),
+        ),
       ],
     );
   }

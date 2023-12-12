@@ -21,17 +21,20 @@ class ProjectModel {
     required this.githubUrl,
   });
 
-  factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
-        id: json["id"],
-        experienceId: json["experience_id"],
-        name: json["name"],
-        description: json["description"],
-        imageUrl: json["image_url"],
-        appUrl: json["app_url"],
-        iosUrl: json["ios_url"],
-        webAppUrl: json["web_app_url"],
-        githubUrl: json["github_url"],
-      );
+  factory ProjectModel.fromJson(Map<String, dynamic> json) {
+    print("Response from ProjectModel ${json.toString()}");
+    return ProjectModel(
+      id: json["id"],
+      experienceId: json["experience_id"],
+      description: json["description"],
+      imageUrl: json["image_url"] ?? '',
+      appUrl: json["app_url"],
+      iosUrl: json["ios_url"],
+      webAppUrl: json["web_app_url"],
+      githubUrl: json["github_url"],
+      name: json["name"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "experience_id": experienceId,

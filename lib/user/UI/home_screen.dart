@@ -101,8 +101,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                 height: 15,
                               ),
                             Text(
-                              value.dataResponse
-                                  .introductoryContent['title_one'],
+                              "sfsf",
                               style: TextStyle(
                                 color: const Color(0xFFE2E8F0),
                                 fontSize: getFontSizeForScreen(
@@ -122,8 +121,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                       : 12,
                             ),
                             Text(
-                              value.dataResponse
-                                  .introductoryContent['title_two'],
+                              "sfsf",
                               style: TextStyle(
                                 color: const Color(0xFFE2E8F0),
                                 fontSize: getFontSizeForScreen(
@@ -146,8 +144,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   ? MediaQuery.of(context).size.width - 250
                                   : null,
                               child: Text(
-                                value.dataResponse
-                                    .introductoryContent['title_three'],
+                                "sfsf",
                                 style: TextStyle(
                                   color: const Color(0xFF94A3B8),
                                   fontSize: getFontSizeForScreen(
@@ -210,7 +207,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         itemBuilder: (context, index) {
                           return getContentWidget(
                             index,
-                            value.dataResponse.aboutUsData['content'],
+                            "value.dataResponse.aboutUsData['content']",
                             currentScreen,
                             heightBtwnContent,
                           );

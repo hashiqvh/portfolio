@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
+import 'package:my_portfolio/core/models/experience_model.dart';
 import 'package:my_portfolio/user/layout.dart';
 import 'package:my_portfolio/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExperienceBox extends StatefulWidget {
+  final ExperienceModel experienceModel;
   final Screens currentScreen;
-  const ExperienceBox({super.key, required this.currentScreen});
+  const ExperienceBox({
+    super.key,
+    required this.currentScreen,
+    required this.experienceModel,
+  });
 
   @override
   State<ExperienceBox> createState() => _ExperienceBoxState();
@@ -67,7 +74,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                       top: 4,
                       bottom: widget.currentScreen == Screens.phone ? 0 : 8),
                   child: Text(
-                    '2018 — PRESENT',
+                    '${widget.experienceModel.startDate} — ${widget.experienceModel.endDate}',
                     style: TextStyle(
                       color: const Color(0xFF64748B),
                       fontSize: getFontSizeForScreen(
@@ -91,21 +98,32 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Lead Engineer · Flutter Development',
-                          style: TextStyle(
-                            color: const Color(0xFFE2E8F0),
-                            fontSize: getFontSizeForScreen(
+                        InkWell(
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            if (widget.experienceModel.companyUrl != "") {
+                              launchUrl(
+                                  Uri.parse(widget.experienceModel.companyUrl));
+                            }
+                          },
+                          child: Text(
+                            "${widget.experienceModel.role} . ${widget.experienceModel.companyName}",
+                            style: TextStyle(
+                              color: isHovered
+                                  ? primaryColor
+                                  : const Color(0xFFE2E8F0),
+                              fontSize: getFontSizeForScreen(
                                 tabSize: 16,
                                 phoneSize: 19,
                                 webSize: 16,
-                                currentScreen: widget.currentScreen),
-
-                            fontWeight: widget.currentScreen == Screens.phone ||
-                                    widget.currentScreen == Screens.tablet
-                                ? FontWeight.w400
-                                : FontWeight.w500,
-                            //height: 0.08,
+                                currentScreen: widget.currentScreen,
+                              ),
+                              fontWeight:
+                                  widget.currentScreen == Screens.phone ||
+                                          widget.currentScreen == Screens.tablet
+                                      ? FontWeight.w400
+                                      : FontWeight.w600,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -113,7 +131,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                 ? 10
                                 : 6.30),
                         Text(
-                          'Deliver high-quality, robust production code for a diverse array of projects for clients including Harvard Business School, Everytown for Gun Safety, Pratt Institute, Koala Health, Vanderbilt University, The 19th News, and more.Provide leadership within engineering department through close collaboration, knowledge shares, and mentorship.',
+                          widget.experienceModel.description,
                           style: TextStyle(
                             color: const Color(0xFF94A3B8),
                             fontSize: getFontSizeForScreen(
@@ -131,9 +149,25 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                     widget.currentScreen == Screens.tablet
                                 ? 5
                                 : 17.30),
-                        Row(
-                          children: [
-                            Container(
+                        Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          alignment: WrapAlignment.start,
+                          children: List.generate(
+                            widget.experienceModel.skills
+                                .length, // Adjust the number of items as needed
+                            (index) => Text(widget.experienceModel.skills[
+                                index]), // Assuming you have a widget for each wrap item
+                          ),
+                        ),
+                        Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          alignment: WrapAlignment.start,
+                          children: List.generate(
+                            widget.experienceModel.projects!
+                                .length, // Adjust the number of items as needed
+                            (index) => Container(
                               padding: const EdgeInsets.only(
                                   top: 8, right: 16, bottom: 3.60),
                               child: Row(
@@ -153,7 +187,8 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                     width: 10,
                                   ),
                                   Text(
-                                    'The Verge',
+                                    widget
+                                        .experienceModel.projects![index].name,
                                     style: TextStyle(
                                       color: const Color(0xFFCBD5E1),
                                       fontSize: getFontSizeForScreen(
@@ -167,8 +202,9 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                 ],
                               ),
                             ),
-                          ],
-                        )
+                            // Assuming you have a widget for each wrap item
+                          ),
+                        ),
                       ],
                     )),
               ],

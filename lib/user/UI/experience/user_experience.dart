@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:my_portfolio/user/UI/components/experience_box.dart';
 import 'package:my_portfolio/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class Experience extends StatelessWidget {
   final Screens currentScreen;
@@ -33,13 +35,22 @@ class Experience extends StatelessWidget {
                 height: 20,
               )
             : const SizedBox(),
-        ListView.builder(
-            primary: false,
-            itemCount: 3,
-            shrinkWrap: true,
-            itemBuilder: (context, index) => ExperienceBox(
-                  currentScreen: currentScreen,
-                )),
+        Consumer<WorkExperienceProvider>(
+          builder: (context, provider, child) {
+            return provider.isLoaded
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    primary: false,
+                    itemCount: provider.workExperiences.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => ExperienceBox(
+                          currentScreen: currentScreen,
+                          experienceModel: provider.workExperiences[index],
+                        ));
+          },
+        )
       ],
     );
   }

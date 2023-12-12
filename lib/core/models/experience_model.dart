@@ -43,8 +43,8 @@ class ExperienceModel {
         id: json["id"],
         role: json['role'],
         companyName: json["company_name"],
-        startDate: json["start_date"],
-        endDate: json["end_date"],
+        startDate: json["start_date"] ?? "",
+        endDate: json["end_date"] ?? "",
         companyUrl: json["company_url"],
         description: json["description"],
         location: json['location'],
@@ -52,7 +52,8 @@ class ExperienceModel {
         projects: json["projects"] == null
             ? []
             : List<ProjectModel>.from(
-                json["projects"].map((x) => ProjectModel.fromJson(x))),
+                json["projects"].map((x) => ProjectModel.fromJson(x)),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
