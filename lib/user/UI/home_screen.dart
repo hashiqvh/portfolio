@@ -85,11 +85,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               : currentScreen == Screens.tablet
                                   ? 70
                                   : calculatePaddingHeight(currentScreen),
-                          bottom: currentScreen == Screens.phone
-                              ? 10
-                              : currentScreen == Screens.tablet
-                                  ? 70
-                                  : calculatePaddingHeight(currentScreen),
+                          bottom: currentScreen == Screens.phone ? 10 : 70,
                           right: calculatePaddingWidth(currentScreen),
                         ),
                         child: Column(
@@ -101,7 +97,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                 height: 15,
                               ),
                             Text(
-                              "sfsf",
+                              value.dataResponse.userModel!.name,
                               style: TextStyle(
                                 color: const Color(0xFFE2E8F0),
                                 fontSize: getFontSizeForScreen(
@@ -121,7 +117,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                       : 12,
                             ),
                             Text(
-                              "sfsf",
+                              value.dataResponse.userModel!.jobName,
                               style: TextStyle(
                                 color: const Color(0xFFE2E8F0),
                                 fontSize: getFontSizeForScreen(
@@ -144,7 +140,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   ? MediaQuery.of(context).size.width - 250
                                   : null,
                               child: Text(
-                                "sfsf",
+                                value.dataResponse.userModel!.description,
                                 style: TextStyle(
                                   color: const Color(0xFF94A3B8),
                                   fontSize: getFontSizeForScreen(
@@ -157,7 +153,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               ),
                             ),
                             if (currentScreen == Screens.laptop) ...[
-                              const SizedBox(height: 66),
+                              const SizedBox(height: 50),
                               buildHoverContainer(0, "About"),
                               const SizedBox(height: 10),
                               buildHoverContainer(1, "Experience"),
@@ -165,27 +161,29 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               buildHoverContainer(2, "Projects"),
                             ],
                             SizedBox(
-                              height: currentScreen == Screens.phone
-                                  ? 20
-                                  : currentScreen == Screens.tablet
-                                      ? 25
-                                      : 44,
+                              height: currentScreen == Screens.phone ? 20 : 20,
                             ),
                             Row(
                               children: [
                                 HoverIcon(
+                                    link:
+                                        value.dataResponse.userModel!.githubUrl,
                                     screens: currentScreen,
                                     iconData: FontAwesomeIcons.github),
                                 const SizedBox(
                                   width: 20,
                                 ),
                                 HoverIcon(
+                                    link: value
+                                        .dataResponse.userModel!.linkedinUrl,
                                     screens: currentScreen,
                                     iconData: FontAwesomeIcons.linkedin),
                                 const SizedBox(
                                   width: 20,
                                 ),
                                 HoverIcon(
+                                    link: value
+                                        .dataResponse.userModel!.twitterUrl,
                                     screens: currentScreen,
                                     iconData: FontAwesomeIcons.twitter),
                               ],
@@ -207,7 +205,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         itemBuilder: (context, index) {
                           return getContentWidget(
                             index,
-                            "value.dataResponse.aboutUsData['content']",
+                            value.dataResponse.userModel!.about,
                             currentScreen,
                             heightBtwnContent,
                           );

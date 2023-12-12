@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HoverIcon extends StatefulWidget {
   final Screens screens;
@@ -26,7 +27,11 @@ class HoverIconState extends State<HoverIcon> {
   Widget build(BuildContext context) {
     return InkWell(
       hoverColor: Colors.transparent,
-      onTap: () {},
+      onTap: () {
+        if (widget.link != null) {
+          launchUrl(Uri.parse(widget.link!));
+        }
+      },
       child: MouseRegion(
         onEnter: (event) {
           setState(() {

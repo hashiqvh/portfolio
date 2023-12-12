@@ -53,7 +53,7 @@ class UserAboutScreen extends StatelessWidget {
                   )
                 : const SizedBox(),
             Text(
-              "about",
+              about,
               style: TextStyle(
                 fontSize: getFontSizeForScreen(
                     tabSize: 16,

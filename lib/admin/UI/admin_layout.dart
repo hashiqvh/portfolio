@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/admin/UI/about/about_screen.dart';
 import 'package:my_portfolio/admin/UI/experience/work_experience.dart';
-import 'package:my_portfolio/admin/UI/intro/admin_intro.dart';
 import 'package:my_portfolio/admin/UI/project/admin_project.dart';
 
 class AdminLayout extends StatelessWidget {
   final List<Widget> screens = [
-    const AdminIntroScreen(),
-    const AdminAboutUsScreen(),
+    AdminAboutUsScreen(),
     const AdminWorkExperienceScreen(),
     const AdminProjectsScreen()
   ];
-  AdminScreens intialScreen = AdminScreens.intro;
+  AdminScreens intialScreen = AdminScreens.about;
   AdminLayout({
     super.key,
   });
   @override
   Widget build(BuildContext context) {
     switch (intialScreen) {
-      case AdminScreens.intro:
-        return const AdminIntroScreen();
       case AdminScreens.about:
-        return const AdminAboutUsScreen();
+        return AdminAboutUsScreen();
       case AdminScreens.experience:
         return const AdminWorkExperienceScreen();
       case AdminScreens.projects:
@@ -31,7 +27,6 @@ class AdminLayout extends StatelessWidget {
 }
 
 enum AdminScreens {
-  intro,
   about,
   experience,
   projects,

@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:go_router/go_router.dart';
 import 'package:my_portfolio/admin/UI/about/about_screen.dart';
-import 'package:my_portfolio/admin/UI/admin_layout.dart';
 import 'package:my_portfolio/admin/UI/experience/work_experience.dart';
-import 'package:my_portfolio/admin/UI/intro/admin_intro.dart';
 import 'package:my_portfolio/admin/UI/project/admin_project.dart';
 import 'package:my_portfolio/admin/UI/screens/admin_login.dart';
 import 'package:my_portfolio/common_screen/error_screen.dart';
@@ -13,7 +11,6 @@ import 'package:my_portfolio/user/UI/home_screen.dart';
 
 const List<String> restrictedRoutes = [
   RouteUri.admin,
-  RouteUri.adminIntro,
   RouteUri.adminAbout,
   RouteUri.adminExperience,
   RouteUri.adminProjects,
@@ -22,7 +19,6 @@ const List<String> restrictedRoutes = [
 const List<String> unrestrictedRoutes = [
   RouteUri.error404,
   RouteUri.home,
-  RouteUri.intro,
   RouteUri.proejcts,
   RouteUri.experence,
   RouteUri.login,
@@ -63,21 +59,14 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
           path: RouteUri.admin,
           pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const AdminIntroScreen(),
+                child: AdminAboutUsScreen(),
               ),
           routes: [
-            GoRoute(
-              path: RouteUri.adminIntro,
-              pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: AdminLayout(),
-              ),
-            ),
             GoRoute(
               path: RouteUri.adminAbout,
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const AdminAboutUsScreen(),
+                child: AdminAboutUsScreen(),
               ),
             ),
             GoRoute(
@@ -128,14 +117,14 @@ GoRouter appRouter(UserDataProvider userDataProvider) {
 class RouteUri {
   //admin routes
   static const String admin = '/admin';
-  static const String adminIntro = 'intro';
+
   static const String adminAbout = 'about';
   static const String adminExperience = 'experience';
   static const String adminProjects = 'projects';
   static const String login = '/login';
   static const String error404 = '/404';
 //user routes
-  static const String intro = '/intro';
+
   static const String about = '/about';
   static const String home = '/';
   static const String experence = '/experience';

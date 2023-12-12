@@ -4,11 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_portfolio/const.dart';
-import 'package:my_portfolio/core/provider/about_provider.dart';
 import 'package:my_portfolio/core/provider/data_provider.dart';
-import 'package:my_portfolio/core/provider/intro_provider.dart';
 import 'package:my_portfolio/core/provider/project_provider.dart';
-import 'package:my_portfolio/core/provider/skills_provider.dart';
 import 'package:my_portfolio/core/provider/user_data_provider.dart';
 import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:my_portfolio/firebase_options.dart';
@@ -54,12 +51,6 @@ class _MyAppState extends State<MyApp> {
             create: (context) => UserDataProvider()),
         ChangeNotifierProvider<DataProvider>(
             create: (context) => DataProvider()),
-        ChangeNotifierProvider<IntroProvider>(
-            create: (context) => IntroProvider()),
-        ChangeNotifierProvider<AboutUsProvider>(
-            create: (context) => AboutUsProvider()),
-        ChangeNotifierProvider<SkillsProvider>(
-            create: (context) => SkillsProvider()),
         ChangeNotifierProvider<WorkExperienceProvider>(
             create: (context) => WorkExperienceProvider()),
         ChangeNotifierProvider<ProjectsProvider>(

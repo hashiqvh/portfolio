@@ -35,7 +35,7 @@ class MenuItem {
 class SideBar extends StatefulWidget {
   final String route;
 
-  const SideBar({super.key, this.route = RouteUri.adminIntro});
+  const SideBar({super.key, this.route = RouteUri.about});
 
   @override
   State<SideBar> createState() => _SideBarState();
@@ -43,8 +43,7 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   final List<MenuItem> menuItems = [
-    MenuItem('Introduction', RouteUri.adminIntro, Icons.info),
-    MenuItem('About', RouteUri.adminAbout, Icons.account_circle),
+    MenuItem('Info', RouteUri.adminAbout, Icons.account_circle),
     MenuItem('Experience', RouteUri.adminExperience, Icons.business_center),
     MenuItem('Projects', RouteUri.adminProjects, Icons.folder),
     // Add more menu items as needed

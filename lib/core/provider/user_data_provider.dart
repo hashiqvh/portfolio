@@ -2,11 +2,18 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_portfolio/core/models/user_model.dart';
+import 'package:my_portfolio/main.dart';
 import 'package:my_portfolio/route_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDataProvider extends ChangeNotifier {
   var _username = '';
+
+  UserModel? userModel;
+
+  bool isLoading = false;
 
   String get username => _username;
 
@@ -17,6 +24,20 @@ class UserDataProvider extends ChangeNotifier {
 
     _username = '';
 
+    notifyListeners();
+  }
+
+  getUserData() async {
+    isLoading = true;
+    PostgrestResponse response = await supabase
+        .from('userdata')
+        .select('*', const FetchOptions(forceResponse: true))
+        .eq('id', 1);
+
+    if (response.status == 200) {
+      userModel = UserModel.fromJson(response.data[0]);
+    } else {}
+    isLoading = false;
     notifyListeners();
   }
 

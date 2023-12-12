@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/core/models/data_response.dart';
-import 'package:my_portfolio/core/provider/about_provider.dart';
-import 'package:my_portfolio/core/provider/intro_provider.dart';
 import 'package:my_portfolio/core/provider/project_provider.dart';
-import 'package:my_portfolio/core/provider/skills_provider.dart';
+import 'package:my_portfolio/core/provider/user_data_provider.dart';
 import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:provider/provider.dart';
 
 class DataProvider extends ChangeNotifier {
   DataResponse _dataResponse = DataResponse(
-    aboutUsData: {},
-    introductoryContent: {},
     projects: [],
-    skills: [],
+    userModel: null,
     workExperiences: [],
   );
   bool _isLoading = false;
@@ -22,18 +18,15 @@ class DataProvider extends ChangeNotifier {
   // Fetch all data
   Future<void> fetchData(BuildContext context) async {
     _isLoading = true;
-    var introProvider = Provider.of<IntroProvider>(context, listen: false);
-    var aboutProvider = Provider.of<AboutUsProvider>(context, listen: false);
-    var skillsProvider = Provider.of<SkillsProvider>(context, listen: false);
+
     var workExperienceProvider =
         Provider.of<WorkExperienceProvider>(context, listen: false);
     var projectsproviderr =
         Provider.of<ProjectsProvider>(context, listen: false);
+    var userProvider = Provider.of<UserDataProvider>(context, listen: false);
     try {
+      await userProvider.getUserData();
       await workExperienceProvider.fetchWorkExperiences();
-      await introProvider.fetchIntroductoryContent();
-      await aboutProvider.fetchAboutUsData();
-      await skillsProvider.fetchSkills();
 
       await projectsproviderr.fetchProjects();
     } catch (error) {
@@ -41,10 +34,8 @@ class DataProvider extends ChangeNotifier {
     } finally {
       // Set the response with updated data and loading flags
       _dataResponse = DataResponse(
-        aboutUsData: aboutProvider.aboutUsData,
-        introductoryContent: introProvider.introductoryContent,
         projects: projectsproviderr.projects,
-        skills: skillsProvider.skills,
+        userModel: userProvider.userModel!,
         workExperiences: workExperienceProvider.workExperiences,
       );
       _isLoading = false;
