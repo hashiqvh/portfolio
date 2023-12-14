@@ -135,12 +135,12 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
                       var projectModel = ProjectModel(
                         experienceId: selectedExperience,
                         name: name,
-                        description: description,
+                        description: description ?? "",
                         imageUrl: _base64Image ?? "",
-                        appUrl: playStoreUrl,
-                        iosUrl: appStoreUrl,
-                        webAppUrl: webUrl,
-                        githubUrl: githubUrl,
+                        appUrl: playStoreUrl ?? "",
+                        iosUrl: appStoreUrl ?? "",
+                        webAppUrl: webUrl ?? "",
+                        githubUrl: githubUrl ?? "",
                       );
                       if (widget.project != null) {
                         Provider.of<ProjectsProvider>(context, listen: false)

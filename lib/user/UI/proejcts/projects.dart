@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/core/provider/project_provider.dart';
+import 'package:my_portfolio/user/UI/components/footer.dart';
 import 'package:my_portfolio/user/UI/components/project_box.dart';
 import 'package:my_portfolio/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -41,14 +42,24 @@ class Projects extends StatelessWidget {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : ListView.builder(
-                      primary: false,
-                      itemCount: projectProvider.projects.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => ProjectBox(
-                            projectModel: projectProvider.projects[index],
-                            currentScreen: currentScreen,
-                          )),
+                  : Column(
+                      children: [
+                        ListView.builder(
+                            primary: false,
+                            itemCount: projectProvider.projects.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => ProjectBox(
+                                  projectModel: projectProvider.projects[index],
+                                  currentScreen: currentScreen,
+                                )),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Footer(
+                          currentScreen: currentScreen,
+                        )
+                      ],
+                    ),
         ),
       ],
     );

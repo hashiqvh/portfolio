@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/core/provider/data_provider.dart';
 import 'package:my_portfolio/user/UI/about/user_about.dart';
+import 'package:my_portfolio/user/UI/components/conditional_column.dart';
 import 'package:my_portfolio/user/UI/components/hover_container_vertical.dart';
 import 'package:my_portfolio/user/UI/components/hover_icon.dart';
 import 'package:my_portfolio/user/UI/experience/user_experience.dart';
@@ -85,7 +86,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               : currentScreen == Screens.tablet
                                   ? 70
                                   : calculatePaddingHeight(currentScreen),
-                          bottom: currentScreen == Screens.phone ? 10 : 70,
+                          bottom: 50,
                           right: calculatePaddingWidth(currentScreen),
                         ),
                         child: Column(
@@ -96,72 +97,78 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                               const SizedBox(
                                 height: 15,
                               ),
-                            Text(
-                              value.dataResponse.userModel!.name,
-                              style: TextStyle(
-                                color: const Color(0xFFE2E8F0),
-                                fontSize: getFontSizeForScreen(
-                                    tabSize: 36,
-                                    phoneSize: 35,
-                                    webSize: 48,
-                                    currentScreen: currentScreen),
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: -1,
-                              ),
-                            ),
-                            SizedBox(
-                              height: currentScreen == Screens.phone
-                                  ? 3
-                                  : currentScreen == Screens.tablet
-                                      ? 10
-                                      : 12,
-                            ),
-                            Text(
-                              value.dataResponse.userModel!.jobName,
-                              style: TextStyle(
-                                color: const Color(0xFFE2E8F0),
-                                fontSize: getFontSizeForScreen(
-                                    tabSize: 18,
-                                    phoneSize: 20,
-                                    webSize: 20,
-                                    currentScreen: currentScreen),
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: -0.50,
-                              ),
-                            ),
-                            SizedBox(
-                              height: currentScreen == Screens.phone ||
-                                      currentScreen == Screens.tablet
-                                  ? 10
-                                  : 15,
-                            ),
-                            SizedBox(
-                              width: currentScreen == Screens.tablet
-                                  ? MediaQuery.of(context).size.width - 250
-                                  : null,
-                              child: Text(
-                                value.dataResponse.userModel!.description,
-                                style: TextStyle(
-                                  color: const Color(0xFF94A3B8),
-                                  fontSize: getFontSizeForScreen(
-                                      tabSize: 16,
-                                      phoneSize: 18,
-                                      webSize: 16,
-                                      currentScreen: currentScreen),
-                                  fontWeight: FontWeight.w400,
+                            ConditionalColumn(
+                              isExpanded: currentScreen == Screens.laptop,
+                              children: [
+                                Text(
+                                  value.dataResponse.userModel!.name,
+                                  style: TextStyle(
+                                    color: const Color(0xFFE2E8F0),
+                                    fontSize: getFontSizeForScreen(
+                                        tabSize: 36,
+                                        phoneSize: 35,
+                                        webSize: 48,
+                                        currentScreen: currentScreen),
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: -1,
+                                  ),
                                 ),
-                              ),
-                            ),
-                            if (currentScreen == Screens.laptop) ...[
-                              const SizedBox(height: 50),
-                              buildHoverContainer(0, "About"),
-                              const SizedBox(height: 10),
-                              buildHoverContainer(1, "Experience"),
-                              const SizedBox(height: 10),
-                              buildHoverContainer(2, "Projects"),
-                            ],
-                            SizedBox(
-                              height: currentScreen == Screens.phone ? 20 : 20,
+                                SizedBox(
+                                  height: currentScreen == Screens.phone
+                                      ? 3
+                                      : currentScreen == Screens.tablet
+                                          ? 10
+                                          : 12,
+                                ),
+                                Text(
+                                  value.dataResponse.userModel!.jobName,
+                                  style: TextStyle(
+                                    color: const Color(0xFFE2E8F0),
+                                    fontSize: getFontSizeForScreen(
+                                        tabSize: 18,
+                                        phoneSize: 20,
+                                        webSize: 20,
+                                        currentScreen: currentScreen),
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: -0.50,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: currentScreen == Screens.phone ||
+                                          currentScreen == Screens.tablet
+                                      ? 10
+                                      : 15,
+                                ),
+                                SizedBox(
+                                  width: currentScreen == Screens.tablet
+                                      ? MediaQuery.of(context).size.width - 250
+                                      : null,
+                                  child: Text(
+                                    value.dataResponse.userModel!.description,
+                                    style: TextStyle(
+                                      color: const Color(0xFF94A3B8),
+                                      fontSize: getFontSizeForScreen(
+                                          tabSize: 16,
+                                          phoneSize: 18,
+                                          webSize: 16,
+                                          currentScreen: currentScreen),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                if (currentScreen == Screens.laptop) ...[
+                                  const SizedBox(height: 50),
+                                  buildHoverContainer(0, "About"),
+                                  const SizedBox(height: 10),
+                                  buildHoverContainer(1, "Experience"),
+                                  const SizedBox(height: 10),
+                                  buildHoverContainer(2, "Projects"),
+                                ],
+                                SizedBox(
+                                  height:
+                                      currentScreen == Screens.phone ? 20 : 20,
+                                ),
+                              ],
                             ),
                             Row(
                               children: [
