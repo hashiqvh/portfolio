@@ -8,7 +8,7 @@ class ProjectModel {
   final String iosUrl;
   final dynamic webAppUrl;
   final String githubUrl;
-
+  final List<String> words;
   ProjectModel({
     this.id,
     required this.experienceId,
@@ -19,6 +19,7 @@ class ProjectModel {
     required this.iosUrl,
     required this.webAppUrl,
     required this.githubUrl,
+    required this.words,
   });
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +34,9 @@ class ProjectModel {
       webAppUrl: json["web_app_url"],
       githubUrl: json["github_url"],
       name: json["name"],
+      words: json["words"] == null
+          ? []
+          : List<String>.from(json["words"].map((x) => x)),
     );
   }
 

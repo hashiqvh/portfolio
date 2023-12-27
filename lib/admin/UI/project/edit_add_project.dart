@@ -134,6 +134,7 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
                       final webUrl = webUrlController.text;
                       var projectModel = ProjectModel(
                         experienceId: selectedExperience,
+                        words: [],
                         name: name,
                         description: description ?? "",
                         imageUrl: _base64Image ?? "",
@@ -166,7 +167,7 @@ class _EditAddProjectScreenState extends State<EditAddProjectScreen> {
 
     if (widget.project != null) {
       isEditing = true;
-      selectedExperience = widget.project!.id!;
+      selectedExperience = widget.project!.experienceId;
       nameController.text = widget.project!.name ?? '';
       descriptionController.text = widget.project!.description ?? '';
 

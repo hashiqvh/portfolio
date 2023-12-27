@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData.dark().copyWith(
             scaffoldBackgroundColor: bgColor,
             textTheme:
-                GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
+                GoogleFonts.robotoMonoTextTheme(Theme.of(context).textTheme)
                     .apply(bodyColor: Colors.white),
             canvasColor: secondaryColor,
           ),

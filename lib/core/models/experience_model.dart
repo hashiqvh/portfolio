@@ -40,7 +40,7 @@ class ExperienceModel {
 
   factory ExperienceModel.fromJson(Map<String, dynamic> json) =>
       ExperienceModel(
-        id: json["id"],
+        id: json["experience_id"],
         role: json['role'],
         companyName: json["company_name"],
         startDate: json["start_date"] ?? "",

@@ -46,16 +46,14 @@ class _ExperienceBoxState extends State<ExperienceBox> {
           ),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
-            color: secondaryColor.withOpacity(0.2),
+            color: isHovered
+                ? secondaryColor.withOpacity(0.2)
+                : Colors.transparent,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: 1,
-                  color: widget.currentScreen == Screens.phone ||
-                          widget.currentScreen == Screens.tablet
-                      ? primaryColor
-                      : isHovered
-                          ? primaryColor
-                          : const Color(0xFF27272A)),
+              side: !isHovered
+                  ? BorderSide.none
+                  : BorderSide(
+                      width: 1, color: secondaryColor.withOpacity(0.2)),
               borderRadius: BorderRadius.circular(6),
             ),
           ),
@@ -159,8 +157,37 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                           children: List.generate(
                             widget.experienceModel.skills
                                 .length, // Adjust the number of items as needed
-                            (index) => Text(widget.experienceModel.skills[
-                                index]), // Assuming you have a widget for each wrap item
+                            (index) => Container(
+                              padding: const EdgeInsets.only(
+                                top: 13,
+                                left: 12,
+                                right: 12,
+                                bottom: 13,
+                              ),
+                              decoration: ShapeDecoration(
+                                color: primaryColor.withOpacity(0.1),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(9999),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    widget.experienceModel.skills[index],
+                                    style: const TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 12,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         Wrap(

@@ -57,7 +57,7 @@ class Projects extends StatelessWidget {
                         ),
                         Footer(
                           currentScreen: currentScreen,
-                        )
+                        ),
                       ],
                     ),
         ),

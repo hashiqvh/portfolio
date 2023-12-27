@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/core/models/project_model.dart';
+import 'package:my_portfolio/user/UI/components/dynmaic_content_widget.dart';
 import 'package:my_portfolio/user/UI/components/hover_icon.dart';
 import 'package:my_portfolio/user/layout.dart';
 import 'package:my_portfolio/utils/utils.dart';
@@ -62,14 +63,14 @@ class _ProjectBoxState extends State<ProjectBox> {
             child: LayoutScreenExperience(
               currentScreen: widget.currentScreen,
               children: [
-                Container(
-                  width: widget.currentScreen == Screens.phone ||
-                          widget.currentScreen == Screens.tablet
-                      ? double.infinity
-                      : 120,
-                  color: Colors.blueGrey,
-                  height: widget.currentScreen != Screens.laptop ? 200 : 120,
-                ),
+                // Container(
+                //   width: widget.currentScreen == Screens.phone ||
+                //           widget.currentScreen == Screens.tablet
+                //       ? double.infinity
+                //       : 120,
+                //   color: Colors.blueGrey,
+                //   height: widget.currentScreen != Screens.laptop ? 200 : 120,
+                // ),
                 widget.currentScreen == Screens.phone ||
                         widget.currentScreen == Screens.tablet
                     ? const SizedBox(height: 5)
@@ -100,19 +101,10 @@ class _ProjectBoxState extends State<ProjectBox> {
                             height: widget.currentScreen != Screens.laptop
                                 ? 10
                                 : 6.30),
-                        Text(
-                          widget.projectModel.description,
-                          style: TextStyle(
-                            color: const Color(0xFF94A3B8),
-                            fontSize: getFontSizeForScreen(
-                                tabSize: 14,
-                                phoneSize: 18,
-                                webSize: 14,
-                                currentScreen: widget.currentScreen),
-
-                            fontWeight: FontWeight.w400,
-                            // height: 0.11,
-                          ),
+                        DynamicContent(
+                          currentScreen: widget.currentScreen,
+                          paragraph: widget.projectModel.description,
+                          wordsToHighlight: widget.projectModel.words,
                         ),
                         SizedBox(
                             height: widget.currentScreen != Screens.laptop
