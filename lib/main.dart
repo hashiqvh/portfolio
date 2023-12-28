@@ -20,7 +20,6 @@ void main() async {
     url: 'https://lqykieuptuztmjpvrpgc.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxeWtpZXVwdHV6dG1qcHZycGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc4MTEwODMsImV4cCI6MjAxMzM4NzA4M30.9Bow2IZFAxznzWUddlRb1YeG5dFrVPfrN-XiGExAWJQ',
-    authFlowType: AuthFlowType.pkce,
   );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   setPathUrlStrategy(); //this removes the '#' from my url
