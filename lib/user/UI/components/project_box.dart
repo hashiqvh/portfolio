@@ -121,6 +121,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: HoverIcon(
+                                          text: "GitHub",
                                           link: widget.projectModel.githubUrl,
                                           iconData: FontAwesomeIcons.github,
                                           screens: widget.currentScreen),
@@ -129,6 +130,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: HoverIcon(
+                                          text: "Play Store",
                                           link: widget.projectModel.appUrl,
                                           iconData: FontAwesomeIcons.play,
                                           screens: widget.currentScreen),
@@ -137,6 +139,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: HoverIcon(
+                                          text: "App Store",
                                           link: widget.projectModel.iosUrl,
                                           iconData: FontAwesomeIcons.appStore,
                                           screens: widget.currentScreen),
@@ -145,6 +148,7 @@ class _ProjectBoxState extends State<ProjectBox> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: HoverIcon(
+                                          text: "Website",
                                           link: widget.projectModel.webAppUrl,
                                           iconData: FontAwesomeIcons.link,
                                           screens: widget.currentScreen),

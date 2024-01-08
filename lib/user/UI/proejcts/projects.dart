@@ -24,7 +24,7 @@ class Projects extends StatelessWidget {
                       phoneSize: 20,
                       webSize: 25,
                       currentScreen: currentScreen),
-                  fontFamily: 'Inter',
+
                   fontWeight: FontWeight.w700,
                   //   height: 0.10,
                   letterSpacing: 1.40,

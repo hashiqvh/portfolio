@@ -3,6 +3,7 @@ import 'package:my_portfolio/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HoverIcon extends StatefulWidget {
+  final String? text;
   final Screens screens;
   final String? link;
   final Color? color;
@@ -14,6 +15,7 @@ class HoverIcon extends StatefulWidget {
     required this.screens,
     this.color,
     this.link,
+    this.text,
   });
 
   @override
@@ -43,16 +45,33 @@ class HoverIconState extends State<HoverIcon> {
             isHovered = false;
           });
         },
-        child: Icon(
-          widget.iconData,
-          size: widget.screens == Screens.phone
-              ? 20
-              : widget.screens == Screens.tablet
+        child: Row(
+          children: [
+            Icon(
+              widget.iconData,
+              size: widget.screens == Screens.phone
                   ? 20
-                  : 25,
-          color: isHovered
-              ? widget.color ?? Colors.white
-              : const Color(0xFF94A3B8), // Change this to your secondaryColor
+                  : widget.screens == Screens.tablet
+                      ? 20
+                      : 20,
+              color: isHovered
+                  ? widget.color ?? Colors.white
+                  : const Color(
+                      0xFF94A3B8), // Change this to your secondaryColor
+            ),
+            if (widget.text != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.text!,
+                  style: TextStyle(
+                    color: isHovered
+                        ? widget.color ?? Colors.white
+                        : const Color(0xFF94A3B8),
+                  ),
+                ),
+              )
+          ],
         ),
       ),
     );

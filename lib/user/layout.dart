@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:my_portfolio/utils/utils.dart';
 
 class LayoutHomeWidget extends StatelessWidget {
+  final int flex;
   final Widget child;
   final Screens currentScreen;
   const LayoutHomeWidget(
-      {super.key, required this.currentScreen, required this.child});
+      {super.key,
+      required this.currentScreen,
+      required this.child,
+      this.flex = 1});
 
   @override
   Widget build(BuildContext context) {
-    return currentScreen != Screens.laptop ? child : Expanded(child: child);
+    return currentScreen != Screens.laptop
+        ? child
+        : Expanded(
+            flex: flex,
+            child: child,
+          );
   }
 }
 

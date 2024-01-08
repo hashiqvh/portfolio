@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/core/models/experience_model.dart';
 import 'package:my_portfolio/user/layout.dart';
@@ -36,7 +35,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
           });
         },
         child: Container(
-          width: 528,
+          width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(
             bottom: getFontSizeForScreen(
                 tabSize: 30,
@@ -67,7 +66,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                   width: widget.currentScreen == Screens.phone ||
                           widget.currentScreen == Screens.tablet
                       ? null
-                      : 120,
+                      : null,
                   padding: EdgeInsets.only(
                       top: 4,
                       bottom: widget.currentScreen == Screens.phone ? 0 : 8),
@@ -159,20 +158,20 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                 .length, // Adjust the number of items as needed
                             (index) => Container(
                               padding: const EdgeInsets.only(
-                                top: 13,
+                                top: 12,
                                 left: 12,
                                 right: 12,
-                                bottom: 13,
+                                bottom: 12,
                               ),
                               decoration: ShapeDecoration(
                                 color: primaryColor.withOpacity(0.1),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(9999),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
@@ -180,9 +179,7 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                                     style: const TextStyle(
                                       color: primaryColor,
                                       fontSize: 12,
-                                      fontFamily: 'Inter',
                                       fontWeight: FontWeight.w500,
-                                      height: 0.14,
                                     ),
                                   ),
                                 ],
@@ -190,51 +187,51 @@ class _ExperienceBoxState extends State<ExperienceBox> {
                             ),
                           ),
                         ),
-                        Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          alignment: WrapAlignment.start,
-                          children: List.generate(
-                            widget.experienceModel.projects!
-                                .length, // Adjust the number of items as needed
-                            (index) => Container(
-                              padding: const EdgeInsets.only(
-                                  top: 8, right: 16, bottom: 3.60),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.link,
-                                    size: getFontSizeForScreen(
-                                        tabSize: 12,
-                                        phoneSize: 12,
-                                        webSize: 12,
-                                        currentScreen: widget.currentScreen),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    widget
-                                        .experienceModel.projects![index].name,
-                                    style: TextStyle(
-                                      color: const Color(0xFFCBD5E1),
-                                      fontSize: getFontSizeForScreen(
-                                          tabSize: 14,
-                                          phoneSize: 12,
-                                          webSize: 14,
-                                          currentScreen: widget.currentScreen),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Assuming you have a widget for each wrap item
-                          ),
-                        ),
+                        // Wrap(
+                        //   spacing: 7.0,
+                        //   runSpacing: 7.0,
+                        //   alignment: WrapAlignment.start,
+                        //   children: List.generate(
+                        //     widget.experienceModel.projects!
+                        //         .length, // Adjust the number of items as needed
+                        //     (index) => Container(
+                        //       padding: const EdgeInsets.only(
+                        //           top: 8, right: 16, bottom: 3.60),
+                        //       child: Row(
+                        //         mainAxisSize: MainAxisSize.min,
+                        //         mainAxisAlignment: MainAxisAlignment.start,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: [
+                        //           Icon(
+                        //             FontAwesomeIcons.link,
+                        //             size: getFontSizeForScreen(
+                        //                 tabSize: 12,
+                        //                 phoneSize: 12,
+                        //                 webSize: 12,
+                        //                 currentScreen: widget.currentScreen),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //           Text(
+                        //             widget
+                        //                 .experienceModel.projects![index].name,
+                        //             style: TextStyle(
+                        //               color: const Color(0xFFCBD5E1),
+                        //               fontSize: getFontSizeForScreen(
+                        //                   tabSize: 14,
+                        //                   phoneSize: 12,
+                        //                   webSize: 14,
+                        //                   currentScreen: widget.currentScreen),
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     // Assuming you have a widget for each wrap item
+                        //   ),
+                        // ),
                       ],
                     )),
               ],

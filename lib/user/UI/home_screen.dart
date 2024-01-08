@@ -77,6 +77,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   currentScreen: currentScreen,
                   children: [
                     LayoutHomeWidget(
+                      flex: 4,
                       currentScreen: currentScreen,
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -200,6 +201,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       ),
                     ),
                     LayoutHomeWidget(
+                      flex: 5,
                       currentScreen: currentScreen,
                       child: ListView.builder(
                         shrinkWrap: true,
