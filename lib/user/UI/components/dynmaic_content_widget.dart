@@ -4,7 +4,6 @@ import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/utils/utils.dart';
 
 class DynamicContent extends StatefulWidget {
-  final bool isAbout;
   final Screens currentScreen;
   final String paragraph;
   final List<String> wordsToHighlight;
@@ -14,7 +13,6 @@ class DynamicContent extends StatefulWidget {
     required this.currentScreen,
     required this.paragraph,
     required this.wordsToHighlight,
-    this.isAbout = false,
   });
 
   @override

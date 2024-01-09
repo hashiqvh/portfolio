@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/core/models/user_model.dart';
+import 'package:my_portfolio/user/UI/components/dynamic_text_about.dart';
 import 'package:my_portfolio/utils/utils.dart';
 
 class UserAboutScreen extends StatelessWidget {
   final Screens currentScreen;
-  final String about;
+  final About about;
   const UserAboutScreen(
       {super.key, required this.about, required this.currentScreen});
 
@@ -52,15 +54,10 @@ class UserAboutScreen extends StatelessWidget {
                     height: 20,
                   )
                 : const SizedBox(),
-            Text(
-              about,
-              style: TextStyle(
-                fontSize: getFontSizeForScreen(
-                    tabSize: 16,
-                    phoneSize: 16,
-                    webSize: 16,
-                    currentScreen: currentScreen),
-              ),
+            DynamicContentAbout(
+              currentScreen: currentScreen,
+              paragraph: about.about,
+              wordsToHighlight: about.words,
             ),
           ],
         ),

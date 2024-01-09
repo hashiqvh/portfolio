@@ -8,12 +8,19 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
+class About {
+  final String about;
+  final List<String> words;
+
+  About({required this.about, required this.words});
+}
+
 class UserModel {
   final int id;
   final String name;
   final String jobName;
   final String description;
-  final String about;
+  final About about;
   final String companyName;
   final String url;
   final String githubUrl;
@@ -38,7 +45,11 @@ class UserModel {
         name: json["name"] ?? "",
         jobName: json["job_name"] ?? "",
         description: json["description"] ?? "",
-        about: json["about"] ?? "",
+        about: About(
+            about: json["about"] ?? "",
+            words: json["words"] == null
+                ? []
+                : List<String>.from(json["words"].map((x) => x))),
         companyName: json["company_name"] ?? "",
         url: json["url"] ?? "",
         githubUrl: json["github_url"] ?? "",

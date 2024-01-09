@@ -36,6 +36,8 @@ class WorkExperienceProvider extends ChangeNotifier {
       workExperiences = [];
       workExperiences = List<ExperienceModel>.from(
           response.data.map((x) => ExperienceModel.fromJson(x)));
+      // Sort the items based on their IDs
+      workExperiences.sort((a, b) => a.id!.compareTo(b.id!));
     } else {
       workExperiences = [];
     }

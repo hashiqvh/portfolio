@@ -35,6 +35,8 @@ class ProjectsProvider extends ChangeNotifier {
 
       _projects = List<ProjectModel>.from(
           response.data.map((x) => ProjectModel.fromJson(x)));
+      // Sort the items based on their IDs
+      _projects.sort((a, b) => a.id!.compareTo(b.id!));
     } else {
       _projects = [];
     }
