@@ -44,16 +44,14 @@ class _ProjectBoxState extends State<ProjectBox> {
           ),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
-            color: secondaryColor.withOpacity(0.2),
+            color: isHovered
+                ? secondaryColor.withOpacity(0.2)
+                : Colors.transparent,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: 1,
-                  color: widget.currentScreen == Screens.phone ||
-                          widget.currentScreen == Screens.tablet
-                      ? primaryColor
-                      : isHovered
-                          ? primaryColor
-                          : const Color(0xFF27272A)),
+              side: !isHovered
+                  ? BorderSide.none
+                  : BorderSide(
+                      width: 1, color: secondaryColor.withOpacity(0.2)),
               borderRadius: BorderRadius.circular(6),
             ),
           ),
