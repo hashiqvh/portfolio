@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/core/provider/work_experience_provider.dart';
 import 'package:my_portfolio/user/UI/components/experience_box.dart';
+import 'package:my_portfolio/user/UI/components/view_resume.dart';
 import 'package:my_portfolio/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -41,14 +42,26 @@ class Experience extends StatelessWidget {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : ListView.builder(
-                    primary: false,
-                    itemCount: provider.workExperiences.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => ExperienceBox(
-                          currentScreen: currentScreen,
-                          experienceModel: provider.workExperiences[index],
-                        ));
+                : Column(
+                    children: [
+                      ListView.builder(
+                          primary: false,
+                          itemCount: provider.workExperiences.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => ExperienceBox(
+                                currentScreen: currentScreen,
+                                experienceModel:
+                                    provider.workExperiences[index],
+                              )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const ViewResumeTile(),
+                      SizedBox(
+                        height: currentScreen == Screens.phone ? 20 : 20,
+                      ),
+                    ],
+                  );
           },
         )
       ],

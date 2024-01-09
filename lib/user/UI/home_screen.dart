@@ -6,7 +6,6 @@ import 'package:my_portfolio/user/UI/about/user_about.dart';
 import 'package:my_portfolio/user/UI/components/conditional_column.dart';
 import 'package:my_portfolio/user/UI/components/hover_container_vertical.dart';
 import 'package:my_portfolio/user/UI/components/hover_icon.dart';
-import 'package:my_portfolio/user/UI/components/view_resume.dart';
 import 'package:my_portfolio/user/UI/experience/user_experience.dart';
 import 'package:my_portfolio/user/UI/proejcts/projects.dart';
 import 'package:my_portfolio/user/layout.dart';
@@ -166,11 +165,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   const SizedBox(height: 10),
                                   buildHoverContainer(2, "Projects"),
                                 ],
-                                SizedBox(
-                                  height:
-                                      currentScreen == Screens.phone ? 20 : 20,
-                                ),
-                                const ViewResumeTile(),
                                 SizedBox(
                                   height:
                                       currentScreen == Screens.phone ? 20 : 20,

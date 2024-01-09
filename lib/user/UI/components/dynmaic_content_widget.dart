@@ -4,16 +4,18 @@ import 'package:my_portfolio/const.dart';
 import 'package:my_portfolio/utils/utils.dart';
 
 class DynamicContent extends StatefulWidget {
+  final bool isAbout;
   final Screens currentScreen;
   final String paragraph;
   final List<String> wordsToHighlight;
 
   const DynamicContent({
-    Key? key,
+    super.key,
     required this.currentScreen,
     required this.paragraph,
     required this.wordsToHighlight,
-  }) : super(key: key);
+    this.isAbout = false,
+  });
 
   @override
   DynamicContentState createState() => DynamicContentState();
